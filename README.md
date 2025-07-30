@@ -1,11 +1,11 @@
 # 💜 Diva Digital - Empodera tu Estrategia en Redes Sociales
 
 <div align="center">
-  <img src="https://img.shields.io/badge/Python-3.8+-blue.svg" alt="Python">
-  <img src="https://img.shields.io/badge/Streamlit-1.28+-red.svg" alt="Streamlit">
-  <img src="https://img.shields.io/badge/Machine%20Learning-Scikit--Learn-orange.svg" alt="ML">
-  <img src="https://img.shields.io/badge/Computer%20Vision-PIL-green.svg" alt="CV">
-  <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License">
+    <img src="https://img.shields.io/badge/Python-3.8+-blue.svg" alt="Python">
+    <img src="https://img.shields.io/badge/Streamlit-1.28+-red.svg" alt="Streamlit">
+    <img src="https://img.shields.io/badge/Machine%20Learning-Scikit--Learn-orange.svg" alt="ML">
+    <img src="https://img.shields.io/badge/Computer%20Vision-PIL-green.svg" alt="CV">
+    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License">
 </div>
 
 ---
@@ -170,14 +170,14 @@ source venv/bin/activate  # En Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
 # Ejecutar la aplicación
-streamlit run App/app_diva_digital_mejorada_v2.py
+streamlit run App/diva_digital.py
 ```
 
 ### 🗂️ **Estructura del Proyecto**
 ```
 Diva_digital/
 ├── 📱 App/                          # Aplicación principal
-│   ├── app_diva_digital_mejorada_v2.py
+│   ├── diva_digital.py              # Archivo principal de la app (actualizado)
 │   ├── logo_diva_digital.png
 │   └── ...
 ├── 📊 Data/                         # Datasets y bases de datos
@@ -302,8 +302,8 @@ Gracias a todas las emprendedoras que han probado la beta y han aportado feedbac
 ---
 
 <div align="center">
-  <h3>💜 Hecho con ❤️ para emprendedoras que sueñan en grande</h3>
-  <p><strong>Diva Digital - Empodera tu estrategia digital</strong></p>
-  
-  ⭐ **¡Si te gusta el proyecto, dale una estrella!** ⭐
+    <h3>💜 Hecho con ❤️ para emprendedoras que sueñan en grande</h3>
+    <p><strong>Diva Digital - Empodera tu estrategia digital</strong></p>
+    
+    ⭐ **¡Si te gusta el proyecto, dale una estrella!** ⭐
 </div>
