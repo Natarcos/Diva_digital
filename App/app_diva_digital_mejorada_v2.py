@@ -29,7 +29,7 @@ st.set_page_config(
 
 # Definir variables de colores y rutas
 PRIMARY_COLOR = "#8e24aa"
-LOGO_PATH = "/Users/n.arcos89/Desktop/Bootcamp_Data/DIVA_DIGITAL_Proyecto Final/App/logo_diva_digital.png"
+LOGO_PATH = os.path.join("App", "logo_diva_digital.png")
 
 # --- ESTILOS PERSONALIZADOS MEJORADOS ---
 page_bg = """
@@ -622,7 +622,7 @@ def cargar_datos():
     """
     try:
         # Intentar cargar el dataset principal
-        df_principal = pd.read_csv("/Users/n.arcos89/Desktop/Bootcamp_Data/DIVA_DIGITAL_Proyecto Final/Data/data_unificada.csv", sep=';')
+        df_principal = pd.read_csv("/Users/n.arcos89/Documents/GitHub/Diva_digital/Data/data_unificada.csv", sep=';')
         
         # Convertir fechas
         if 'Fecha' in df_principal.columns:
@@ -663,10 +663,11 @@ df, tipo_datos = cargar_datos()
 @st.cache_data
 def cargar_datos_imagenes():
     """
-    Carga el CSV con los datos de las imágenes de Pixabay y ajusta las rutas
+    Carga el CSV con los datos de las imágenes de Pixabay usando URLs de Google Drive
     """
     try:
-        csv_path = "/Users/n.arcos89/Desktop/Bootcamp_Data/DIVA_DIGITAL_Proyecto Final/Data/publicaciones_pixabay_ok.csv"
+        # Usar ruta relativa para deployment
+        csv_path = os.path.join("Data", "publicaciones_pixabay_ok.csv")
         
         # Verificar si el archivo CSV existe
         if not os.path.exists(csv_path):
@@ -708,105 +709,60 @@ def cargar_datos_imagenes():
             st.sidebar.write("🔍 Columnas disponibles:", list(df_imagenes.columns))
             return pd.DataFrame()
         
-        # Mostrar algunas imágenes de ejemplo del CSV
-        imagenes_ejemplo_csv = df_imagenes['Imagen'].dropna().head(3).tolist()
-        st.sidebar.write(f"🖼️ Nombres en CSV: {imagenes_ejemplo_csv}")
+        # Verificar si existe la columna URL_Publica
+        if 'URL_Publica' in df_imagenes.columns:
+            # Usar URLs de Google Drive para imágenes reales
+            urls_disponibles = df_imagenes['URL_Publica'].notna().sum()
+            st.sidebar.success(f"🌐 URLs de Google Drive disponibles: {urls_disponibles}")
+            
+            if urls_disponibles > 0:
+                # Mostrar ejemplos de URLs
+                urls_ejemplo = df_imagenes[df_imagenes['URL_Publica'].notna()]['URL_Publica'].head(2).tolist()
+                st.sidebar.write(f"🔗 Ejemplos de URLs: {urls_ejemplo}")
+                
+                # Usar URLs como rutas principales
+                df_imagenes['Ruta'] = df_imagenes['URL_Publica']
+            else:
+                st.sidebar.warning("⚠️ No hay URLs públicas disponibles, usando imágenes placeholder")
+                # Crear URLs placeholder para demostración
+                df_imagenes['Ruta'] = "https://via.placeholder.com/400x300/8e24aa/ffffff?text=Imagen+No+Disponible"
+        else:
+            st.sidebar.warning("⚠️ No se encontró columna URL_Publica, usando imágenes placeholder")
+            # Crear URLs placeholder para demostración
+            df_imagenes['Ruta'] = "https://via.placeholder.com/400x300/8e24aa/ffffff?text=Imagen+No+Disponible"
         
-        # Definir la ruta donde están las imágenes reales
-        ruta_base_imagenes = "/Users/n.arcos89/Desktop/Bootcamp_Data/DIVA_DIGITAL_Proyecto Final/Imagenes/imagenes_pixabay"
-        
-        if not os.path.exists(ruta_base_imagenes):
-            st.sidebar.error("❌ No se encontró el directorio de imágenes")
-            st.sidebar.info("💡 Verifica que las imágenes estén extraídas en: imagenes_pixabay/")
-            return pd.DataFrame()
-        
-        # Obtener lista de archivos reales en el directorio
-        try:
-            archivos_reales = [f for f in os.listdir(ruta_base_imagenes) if f.lower().endswith(('.jpg', '.jpeg', '.png', '.gif'))]
-            archivos_reales.sort()  # Ordenar para facilitar el mapeo
-            st.sidebar.write(f"🖼️ Archivos reales encontrados: {len(archivos_reales)}")
-            st.sidebar.write(f"🖼️ Primeros archivos reales: {archivos_reales[:3]}")
-        except Exception as e:
-            st.sidebar.error(f"❌ Error leyendo directorio: {str(e)}")
-            return pd.DataFrame()
-        
-        if len(archivos_reales) == 0:
-            st.sidebar.error("❌ No se encontraron archivos de imagen en el directorio")
-            return pd.DataFrame()
-        
-        # FUNCIÓN PARA CONVERTIR POST_X.jpg a IMG_X.jpg
-        def convertir_post_a_img(nombre_archivo):
-            """
-            Convierte nombres de POST_X.jpg a IMG_X.jpg
-            """
-            if nombre_archivo.startswith('POST_'):
-                # Extraer el número: POST_47.jpg -> 47
-                numero = nombre_archivo.replace('POST_', '').replace('.jpg', '').replace('.jpeg', '').replace('.png', '')
-                # Obtener la extensión original
-                extension = '.' + nombre_archivo.split('.')[-1]
-                # Crear nuevo nombre: IMG_47.jpg
-                nuevo_nombre = f"IMG_{numero}{extension}"
-                return nuevo_nombre
-            return nombre_archivo
-        
-        # MAPEAR ARCHIVOS REALES (POST_X) CON NOMBRES DEL CSV (IMG_X)
-        # Crear mapeo: IMG_X.jpg (CSV) -> POST_X.jpg (archivo real)
-        mapeo_imagenes = {}
-        mapeo_invertido = {}  # Para mostrar el mapeo POST -> IMG
-        
-        for archivo_real in archivos_reales:
-            if archivo_real.startswith('POST_'):
-                # Convertir POST_47.jpg -> IMG_47.jpg
-                nombre_img = convertir_post_a_img(archivo_real)
-                mapeo_imagenes[nombre_img] = archivo_real
-                mapeo_invertido[archivo_real] = nombre_img
-        
-        st.sidebar.write(f"🔗 Mapeo creado para {len(mapeo_imagenes)} imágenes")
-        
-        # Mostrar algunos ejemplos del mapeo
-        if len(mapeo_invertido) > 0:
-            ejemplos_mapeo = list(mapeo_invertido.items())[:3]
-            st.sidebar.write("🔄 **Ejemplos de conversión:**")
-            for archivo_real, nombre_img in ejemplos_mapeo:
-                st.sidebar.write(f"  • {archivo_real} → {nombre_img}")
-        
-        # Aplicar mapeo y construir rutas
-        def mapear_imagen(nombre_csv):
-            if nombre_csv in mapeo_imagenes:
-                archivo_real = mapeo_imagenes[nombre_csv]
-                return os.path.join(ruta_base_imagenes, archivo_real)
-            return None
-        
-        df_imagenes['Ruta'] = df_imagenes['Imagen'].apply(mapear_imagen)
-        
-        # Verificar cuántas imágenes se mapearon correctamente
-        df_imagenes['imagen_existe'] = df_imagenes['Ruta'].apply(
-            lambda x: os.path.exists(x) if x else False
-        )
+        # Para URLs, no verificamos existencia física del archivo
+        # En su lugar, verificamos que hay una URL válida
+        if 'URL_Publica' in df_imagenes.columns:
+            df_imagenes['imagen_existe'] = df_imagenes['URL_Publica'].notna()
+        else:
+            df_imagenes['imagen_existe'] = df_imagenes['Ruta'].notna()
         
         # Mostrar estadísticas detalladas del mapeo
         imagenes_totales = len(df_imagenes)
         imagenes_mapeadas = df_imagenes['Ruta'].notna().sum()
-        imagenes_encontradas = df_imagenes['imagen_existe'].sum()
+        imagenes_con_url = df_imagenes['imagen_existe'].sum()
         
         st.sidebar.info(f"""
         📸 **Estadísticas de Mapeo:**
         - Total en CSV: {imagenes_totales}
-        - Archivos POST encontrados: {len([f for f in archivos_reales if f.startswith('POST_')])}
+        - URLs disponibles: {imagenes_con_url}
         - Mapeadas exitosamente: {imagenes_mapeadas}
-        - Archivos verificados existentes: {imagenes_encontradas}
-        - Éxito del mapeo: {(imagenes_encontradas/imagenes_totales)*100:.1f}%
+        - Éxito del mapeo: {(imagenes_con_url/imagenes_totales)*100:.1f}%
         """)
         
-        # Mostrar ejemplos de mapeo exitoso y verificación
-        if imagenes_encontradas > 0:
+        # Mostrar ejemplos de mapeo exitoso
+        if imagenes_con_url > 0:
             imagenes_exitosas = df_imagenes[df_imagenes['imagen_existe']].head(3)
             st.sidebar.success("✅ **Ejemplos de mapeo exitoso:**")
             for _, row in imagenes_exitosas.iterrows():
-                archivo_real = os.path.basename(row['Ruta'])
-                st.sidebar.write(f"  • {row['Imagen']} → {archivo_real}")
+                if pd.notna(row['Ruta']):
+                    if row['Ruta'].startswith('http'):
+                        st.sidebar.write(f"  • {row['Imagen']} → URL Google Drive")
+                    else:
+                        st.sidebar.write(f"  • {row['Imagen']} → Placeholder")
         
-        # Filtrar solo las imágenes que existen
+        # Filtrar solo las imágenes que tienen URLs válidas
         df_imagenes_validas = df_imagenes[df_imagenes['imagen_existe']].copy()
         
         # Verificar columnas necesarias
@@ -830,12 +786,13 @@ def cargar_datos_imagenes():
             st.sidebar.info(f"📅 Fechas disponibles: {fecha_min} a {fecha_max}")
             
             # Mostrar algunos nombres de archivos mapeados
-            archivos_mapeados = df_imagenes_validas.apply(
-                lambda row: f"{row['Imagen']} → {os.path.basename(row['Ruta'])}", axis=1
-            ).head(3).tolist()
             st.sidebar.write("🔗 **Mapeo final exitoso:**")
-            for mapeo in archivos_mapeados:
-                st.sidebar.write(f"  • {mapeo}")
+            for _, row in df_imagenes_validas.head(3).iterrows():
+                if pd.notna(row['Ruta']):
+                    if row['Ruta'].startswith('https://drive.google.com'):
+                        st.sidebar.write(f"  • {row['Imagen']} → Google Drive URL")
+                    else:
+                        st.sidebar.write(f"  • {row['Imagen']} → Placeholder")
         else:
             st.sidebar.error("❌ No se encontraron imágenes válidas después del mapeo")
         

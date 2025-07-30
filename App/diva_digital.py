@@ -1338,7 +1338,7 @@ df, tipo_datos = cargar_datos()
 @st.cache_data
 def cargar_datos_imagenes():
     """
-    Carga el CSV con los datos de las imágenes de Pixabay (versión limpia)
+    Carga el CSV con los datos de las imágenes usando URLs públicas (Google Drive, GitHub, etc.)
     """
     import os
     
@@ -1380,10 +1380,37 @@ def cargar_datos_imagenes():
         if 'Imagen' not in df_imagenes.columns:
             return pd.DataFrame()
         
-        # Para deployment en cloud, solo retornamos el CSV sin verificar archivos físicos
-        # En un entorno de producción, las imágenes podrían estar en un servicio de storage
-        df_imagenes['Ruta'] = df_imagenes['Imagen']  # Usar nombre como ruta temporal
-        df_imagenes['imagen_existe'] = True  # Asumir que existen para el CSV
+        # Verificar si hay una columna 'URL_Publica' en el CSV
+        if 'URL_Publica' in df_imagenes.columns:
+            # Caso ideal: URLs ya están en el CSV
+            df_imagenes['Ruta'] = df_imagenes['URL_Publica']
+            df_imagenes['imagen_existe'] = True
+            df_imagenes['tipo_imagen'] = 'url_publica'
+            
+        elif 'Ruta' in df_imagenes.columns and df_imagenes['Ruta'].str.contains('http', na=False).any():
+            # Caso: URLs ya están en la columna Ruta
+            df_imagenes['imagen_existe'] = True
+            df_imagenes['tipo_imagen'] = 'url_publica'
+            
+        else:
+            # Fallback: Generar URLs placeholder mientras preparas las URLs reales
+            def generar_url_placeholder(nombre_imagen):
+                try:
+                    numero = nombre_imagen.replace('IMG_', '').replace('.jpg', '').replace('.jpeg', '').replace('.png', '')
+                    numero_clean = int(numero) % 1000
+                    return f"https://picsum.photos/400/400?random={numero_clean}"
+                except:
+                    return f"https://picsum.photos/400/400?random=1"
+            
+            df_imagenes['Ruta'] = df_imagenes['Imagen'].apply(generar_url_placeholder)
+            df_imagenes['imagen_existe'] = True
+            df_imagenes['tipo_imagen'] = 'placeholder'
+        
+        # Agregar información descriptiva
+        df_imagenes['descripcion'] = df_imagenes.apply(
+            lambda row: f"Imagen real: {row['Imagen']}" if row.get('tipo_imagen') == 'url_publica' 
+            else f"Placeholder para: {row['Imagen']}", axis=1
+        )
         
         # Filtrar datos válidos
         df_imagenes_validas = df_imagenes.dropna(subset=['Imagen', 'Fecha'])
@@ -3846,6 +3873,14 @@ with tab2:
                 st.markdown("### 🖼️ Galería de Imágenes Disponibles")
                 
                 if not df_imagenes.empty:
+                    # Verificar si son imágenes reales o placeholder
+                    tipo_imagenes = df_imagenes['tipo_imagen'].iloc[0] if 'tipo_imagen' in df_imagenes.columns else 'placeholder'
+                    
+                    if tipo_imagenes == 'url_publica':
+                        st.success("✅ **Imágenes Reales**: Analizando tus imágenes reales desde URLs públicas")
+                    else:
+                        st.info("📷 **Modo Demostración**: Estas son imágenes placeholder. Para analizar tus imágenes reales, sube el CSV con la columna 'URL_Publica'")
+                    
                     # Selector de fecha para filtrar imágenes
                     col_fecha1, col_fecha2 = st.columns(2)
                     
@@ -3872,9 +3907,10 @@ with tab2:
                         
                         with col_gal1:
                             try:
-                                st.image(ruta_imagen, caption=f"Imagen: {imagen_seleccionada}", use_container_width=True)
+                                st.image(ruta_imagen, caption=f"Imagen demo: {imagen_seleccionada}", use_container_width=True)
                             except Exception as e:
                                 st.error(f"Error cargando imagen: {str(e)}")
+                                st.info("💡 **Consejo**: Para análisis real, usa la pestaña 'Subir Imagen' o 'URL de Imagen'")
                         
                         with col_gal2:
                             if st.button("🔍 Analizar Imagen Seleccionada", type="primary"):
@@ -3919,11 +3955,19 @@ with tab2:
                                         else:
                                             st.error(f"❌ Error en el análisis: {resultado['error']}")
                                     except Exception as e:
-                                        st.error(f"❌ Error analizando imagen: {str(e)}")
+                                        st.error(f"❌ Error procesando imagen: {str(e)}")
+                                        st.info("💡 **Alternativa**: Prueba subiendo tu propia imagen o usando una URL directa")
                     else:
-                        st.info(f"No hay imágenes disponibles para la fecha {fecha_seleccionada}")
+                        st.warning(f"No hay imágenes disponibles para la fecha {fecha_seleccionada}")
+                        st.info("📅 Prueba seleccionando otra fecha del calendario")
                 else:
                     st.warning("⚠️ No hay imágenes disponibles en la galería")
+                    st.info("💡 **Alternativas para análisis de imágenes:**")
+                    st.markdown("""
+                    - 📤 **Subir Imagen**: Usa la primera pestaña para subir tu propia imagen
+                    - 🔗 **URL de Imagen**: Usa la tercera pestaña para analizar imágenes desde internet
+                    - 🎯 **Funcionalidad completa**: El análisis visual funciona perfectamente con imágenes reales
+                    """)
             
             with img_tab3:
                 st.markdown("### 🔗 Analizar imagen desde URL")
