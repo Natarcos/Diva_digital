@@ -499,181 +499,268 @@ def mostrar_insights_historicos(df, canal):
 
 # Configuración de la página
 st.set_page_config(
-    page_title="Diva Digital - Análisis de Redes Sociales",
-    page_icon="💜",
+    page_title="Diva Digital - Social Media Analytics Platform",
+    page_icon="�",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Definir variables de colores y rutas
-PRIMARY_COLOR = "#8e24aa"
+# Definir variables de colores profesionales
+PRIMARY_COLOR = "#7C3AED"      # Púrpura principal elegante
+SECONDARY_COLOR = "#F8FAFC"    # Gris claro profesional
+ACCENT_COLOR = "#1E293B"       # Gris oscuro para texto
+
 # Ruta relativa para el logo (dentro de la carpeta App)
 LOGO_PATH = os.path.join(os.path.dirname(__file__), "logo_diva_digital.png")
 
-# --- ESTILOS PERSONALIZADOS MEJORADOS ---
+# --- SISTEMA DE DISEÑO PROFESIONAL ---
 page_bg = """
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap');
 
 :root {
-    --primary-purple: #6B46C1;
-    --dark-purple: #4C1D95;
-    --light-gray: #F8FAFC;
-    --medium-gray: #E2E8F0;
-    --dark-gray: #334155;
-    --text-primary: #1E293B;
-    --text-secondary: #64748B;
-    --white: #FFFFFF;
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    /* Paleta de colores profesional (3 colores máximo) */
+    --primary: #7C3AED;           /* Púrpura principal */
+    --secondary: #F8FAFC;         /* Gris claro neutro */
+    --accent: #1E293B;            /* Gris oscuro para texto */
+    
+    /* Variaciones tonales */
+    --primary-dark: #5B21B6;
+    --primary-light: #A78BFA;
+    --primary-ultra-light: #F3F0FF;
+    
+    --neutral-50: #F8FAFC;
+    --neutral-100: #F1F5F9;
+    --neutral-200: #E2E8F0;
+    --neutral-300: #CBD5E1;
+    --neutral-400: #94A3B8;
+    --neutral-500: #64748B;
+    --neutral-600: #475569;
+    --neutral-700: #334155;
+    --neutral-800: #1E293B;
+    --neutral-900: #0F172A;
+    
+    /* Sombras profesionales */
+    --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    
+    /* Espaciado consistente */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+    
+    /* Bordes y radios */
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
 }
 
-/* Reset y configuración base */
+/* ========================
+   RESET Y BASE SYSTEM
+   ======================= */
 * {
     box-sizing: border-box;
 }
 
-body, .main, [data-testid="stAppViewContainer"] > .main {
-    background: var(--light-gray) !important;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
-    color: var(--text-primary) !important;
+html, body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    background: var(--secondary) !important;
+    color: var(--accent) !important;
     line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-/* Sidebar moderno y limpio */
-section[data-testid="stSidebar"], .css-1d391kg, section[data-testid="stSidebar"] > div {
-    background: var(--white) !important;
-    color: var(--text-primary) !important;
-    border-right: 1px solid var(--medium-gray) !important;
-    box-shadow: var(--shadow-md);
+/* ========================
+   LAYOUT PRINCIPAL
+   ======================= */
+.main, [data-testid="stAppViewContainer"] > .main {
+    background: var(--secondary) !important;
+    padding: var(--space-xl) var(--space-lg) !important;
+}
+
+[data-testid="stAppViewContainer"] {
+    background: var(--secondary) !important;
+}
+
+/* ========================
+   SIDEBAR PROFESIONAL
+   ======================= */
+section[data-testid="stSidebar"] {
+    background: white !important;
+    border-right: 1px solid var(--neutral-200) !important;
+    box-shadow: var(--shadow-lg) !important;
+    width: 280px !important;
+}
+
+section[data-testid="stSidebar"] > div {
+    background: white !important;
+    padding: var(--space-lg) !important;
 }
 
 section[data-testid="stSidebar"] .markdown-text-container,
-section[data-testid="stSidebar"] label,
-section[data-testid="stSidebar"] .stSelectbox label,
-section[data-testid="stSidebar"] .stMultiSelect label,
-section[data-testid="stSidebar"] .stDateInput label {
-    color: var(--text-primary) !important;
-    font-weight: 500;
-    font-size: 0.875rem;
+section[data-testid="stSidebar"] label {
+    color: var(--accent) !important;
+    font-weight: 500 !important;
+    font-size: 0.875rem !important;
+    margin-bottom: var(--space-sm) !important;
 }
 
-/* Tipografía profesional */
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Inter', sans-serif !important;
-    color: var(--text-primary) !important;
-    font-weight: 600;
-    letter-spacing: -0.025em;
-    line-height: 1.25;
-    margin-bottom: 1rem;
-}
-
+/* ========================
+   TIPOGRAFÍA ELEGANTE
+   ======================= */
 h1 {
-    font-size: 2.25rem !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 2.5rem !important;
     font-weight: 700 !important;
-    color: var(--primary-purple) !important;
-    text-align: center;
-    margin-bottom: 2rem;
-    letter-spacing: -0.05em;
+    color: var(--primary) !important;
+    text-align: center !important;
+    margin: 0 0 var(--space-2xl) 0 !important;
+    letter-spacing: -0.02em !important;
+    line-height: 1.2 !important;
 }
 
 h2 {
+    font-family: 'Outfit', sans-serif !important;
     font-size: 1.875rem !important;
-    color: var(--primary-purple) !important;
-    margin-bottom: 1.5rem;
+    font-weight: 600 !important;
+    color: var(--accent) !important;
+    margin: var(--space-xl) 0 var(--space-lg) 0 !important;
+    letter-spacing: -0.01em !important;
 }
 
 h3 {
-    font-size: 1.5rem !important;
-    margin-bottom: 1rem;
-}
-
-h4 {
+    font-family: 'Inter', sans-serif !important;
     font-size: 1.25rem !important;
-    margin-bottom: 0.75rem;
+    font-weight: 600 !important;
+    color: var(--accent) !important;
+    margin: var(--space-lg) 0 var(--space-md) 0 !important;
 }
 
-/* Métricas con diseño elevado */
+h4, h5, h6 {
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 600 !important;
+    color: var(--accent) !important;
+    margin-bottom: var(--space-sm) !important;
+}
+
+/* ========================
+   COMPONENTES DESTACADOS
+   ======================= */
+
+/* Header con logo prominente */
+.logo-section {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%) !important;
+    padding: var(--space-2xl) var(--space-lg) !important;
+    margin: calc(-1 * var(--space-xl)) calc(-1 * var(--space-lg)) var(--space-2xl) calc(-1 * var(--space-lg)) !important;
+    border-radius: 0 0 var(--radius-xl) var(--radius-xl) !important;
+    box-shadow: var(--shadow-xl) !important;
+    text-align: center !important;
+}
+
+.logo-section img {
+    max-width: 320px !important;
+    height: auto !important;
+    filter: brightness(0) invert(1) !important;
+    margin: 0 auto !important;
+    display: block !important;
+}
+
+/* Métricas profesionales */
 [data-testid="metric-container"] {
-    background: var(--white) !important;
-    border: 1px solid var(--medium-gray) !important;
-    border-radius: 12px !important;
-    padding: 1.5rem !important;
+    background: white !important;
+    border: 1px solid var(--neutral-200) !important;
+    border-radius: var(--radius-lg) !important;
+    padding: var(--space-xl) var(--space-lg) !important;
     box-shadow: var(--shadow-sm) !important;
-    transition: all 0.2s ease !important;
-    position: relative;
-    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    position: relative !important;
+    overflow: hidden !important;
 }
 
 [data-testid="metric-container"]:hover {
-    box-shadow: var(--shadow-md) !important;
-    transform: translateY(-1px);
-    border-color: var(--primary-purple) !important;
+    box-shadow: var(--shadow-lg) !important;
+    transform: translateY(-2px) !important;
+    border-color: var(--primary-light) !important;
 }
 
 [data-testid="metric-container"]::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: linear-gradient(90deg, var(--primary-purple), var(--dark-purple));
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 4px !important;
+    background: linear-gradient(90deg, var(--primary), var(--primary-dark)) !important;
 }
 
 [data-testid="metric-container"] [data-testid="metric-value"] {
-    color: var(--primary-purple) !important;
-    font-weight: 700 !important;
-    font-size: 2rem !important;
-    line-height: 1;
-    margin-bottom: 0.25rem;
+    color: var(--primary) !important;
+    font-weight: 800 !important;
+    font-size: 2.25rem !important;
+    line-height: 1 !important;
+    margin-bottom: var(--space-xs) !important;
+    font-family: 'Outfit', sans-serif !important;
 }
 
 [data-testid="metric-container"] [data-testid="metric-label"] {
-    color: var(--text-secondary) !important;
+    color: var(--neutral-600) !important;
     font-weight: 500 !important;
     font-size: 0.875rem !important;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    font-family: 'Inter', sans-serif !important;
 }
 
-/* Botones modernos y profesionales */
+/* ========================
+   BOTONES Y INTERACCIONES
+   ======================= */
 .stButton > button {
-    background: var(--primary-purple) !important;
-    color: var(--white) !important;
+    background: var(--primary) !important;
+    color: white !important;
     border: none !important;
-    border-radius: 10px !important;
+    border-radius: var(--radius-md) !important;
     font-weight: 600 !important;
     font-family: 'Inter', sans-serif !important;
     font-size: 0.875rem !important;
-    padding: 0.75rem 1.5rem !important;
+    padding: var(--space-md) var(--space-xl) !important;
     box-shadow: var(--shadow-sm) !important;
-    transition: all 0.2s ease !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
     text-transform: none !important;
     letter-spacing: 0 !important;
+    min-height: 44px !important;
 }
 
 .stButton > button:hover {
-    background: var(--dark-purple) !important;
-    box-shadow: var(--shadow-md) !important;
-    transform: translateY(-1px);
+    background: var(--primary-dark) !important;
+    box-shadow: var(--shadow-lg) !important;
+    transform: translateY(-2px) !important;
 }
 
 .stButton > button:active {
-    transform: translateY(0);
+    transform: translateY(0) !important;
     box-shadow: var(--shadow-sm) !important;
 }
 
-/* Alertas y notificaciones */
+/* ========================
+   ALERTAS Y NOTIFICACIONES
+   ======================= */
 .stInfo, .stWarning, .stSuccess, .stError {
-    background-color: var(--white) !important;
-    color: var(--text-primary) !important;
-    border: 1px solid var(--medium-gray) !important;
-    border-left: 4px solid var(--primary-purple) !important;
-    border-radius: 8px !important;
+    background: white !important;
+    color: var(--accent) !important;
+    border: 1px solid var(--neutral-200) !important;
+    border-left: 4px solid var(--primary) !important;
+    border-radius: var(--radius-md) !important;
     box-shadow: var(--shadow-sm) !important;
-    padding: 1rem !important;
+    padding: var(--space-lg) !important;
+    font-weight: 500 !important;
 }
 
 .stWarning {
@@ -688,146 +775,148 @@ h4 {
     border-left-color: #EF4444 !important;
 }
 
-/* Header y logo con protagonismo */
-.header-container {
-    background: var(--white);
-    padding: 2rem 0;
-    margin-bottom: 2rem;
-    border-bottom: 1px solid var(--medium-gray);
-    box-shadow: var(--shadow-sm);
-}
-
-.header-logo, .logo-container {
-    background: none !important;
-    box-shadow: none !important;
-    border: none !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 0;
-}
-
-.logo-container img, .header-logo img {
-    max-width: 280px !important;
-    height: auto !important;
-    margin: 0 auto !important;
-    display: block;
-    filter: drop-shadow(0 4px 6px rgba(107, 70, 193, 0.1));
-}
-
-/* Contenido principal */
-.main .markdown-text-container, .main p {
-    color: var(--text-primary) !important;
-    line-height: 1.6;
-}
-
-/* Tablas y dataframes */
-.stDataFrame, .stTable {
-    background: var(--white) !important;
-    color: var(--text-primary) !important;
-    border-radius: 12px !important;
-    border: 1px solid var(--medium-gray) !important;
-    box-shadow: var(--shadow-sm) !important;
-    overflow: hidden;
-}
-
-.stDataFrame th, .stTable th {
-    background: var(--light-gray) !important;
-    color: var(--text-primary) !important;
-    font-weight: 600 !important;
-    border-bottom: 2px solid var(--medium-gray) !important;
-}
-
-/* Contenedor principal */
-[data-testid="stAppViewContainer"] {
-    background: var(--light-gray) !important;
-}
-
-/* Líneas divisorias */
-hr, .stMarkdown hr {
-    border: none;
-    border-top: 1px solid var(--medium-gray);
-    margin: 3rem 0;
-}
-
-/* Scrollbar personalizado */
-::-webkit-scrollbar {
-    width: 6px;
-    background: var(--light-gray);
-}
-
-::-webkit-scrollbar-thumb {
-    background: var(--primary-purple);
-    border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: var(--dark-purple);
-}
-
-/* Tabs modernos */
+/* ========================
+   TABS PROFESIONALES
+   ======================= */
 .stTabs [data-baseweb="tab-list"] {
-    gap: 0.5rem;
-    background: var(--white);
-    padding: 0.25rem;
-    border-radius: 10px;
-    border: 1px solid var(--medium-gray);
-    box-shadow: var(--shadow-sm);
+    gap: var(--space-xs) !important;
+    background: white !important;
+    padding: var(--space-sm) !important;
+    border-radius: var(--radius-lg) !important;
+    border: 1px solid var(--neutral-200) !important;
+    box-shadow: var(--shadow-sm) !important;
+    margin-bottom: var(--space-xl) !important;
 }
 
 .stTabs [data-baseweb="tab"] {
     background: transparent !important;
-    border-radius: 8px !important;
-    color: var(--text-secondary) !important;
+    border-radius: var(--radius-md) !important;
+    color: var(--neutral-600) !important;
     font-weight: 500 !important;
-    padding: 0.75rem 1.5rem !important;
+    font-size: 0.875rem !important;
+    padding: var(--space-md) var(--space-lg) !important;
     border: none !important;
-    transition: all 0.2s ease !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    font-family: 'Inter', sans-serif !important;
 }
 
 .stTabs [aria-selected="true"] {
-    background: var(--primary-purple) !important;
-    color: var(--white) !important;
+    background: var(--primary) !important;
+    color: white !important;
     box-shadow: var(--shadow-sm) !important;
+    font-weight: 600 !important;
 }
 
-/* Selectboxes y inputs */
-.stSelectbox > div > div {
-    background: var(--white) !important;
-    border: 1px solid var(--medium-gray) !important;
-    border-radius: 8px !important;
-    box-shadow: var(--shadow-sm) !important;
+.stTabs [data-baseweb="tab"]:hover:not([aria-selected="true"]) {
+    background: var(--neutral-100) !important;
+    color: var(--accent) !important;
 }
 
-.stMultiSelect > div > div {
-    background: var(--white) !important;
-    border: 1px solid var(--medium-gray) !important;
-    border-radius: 8px !important;
-    box-shadow: var(--shadow-sm) !important;
+/* ========================
+   FORMULARIOS E INPUTS
+   ======================= */
+.stSelectbox > div > div,
+.stMultiSelect > div > div,
+.stTextInput > div > div,
+.stNumberInput > div > div {
+    background: white !important;
+    border: 1px solid var(--neutral-300) !important;
+    border-radius: var(--radius-md) !important;
+    box-shadow: var(--shadow-xs) !important;
+    transition: all 0.2s ease !important;
 }
 
-/* Cards y contenedores */
+.stSelectbox > div > div:focus-within,
+.stMultiSelect > div > div:focus-within,
+.stTextInput > div > div:focus-within,
+.stNumberInput > div > div:focus-within {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 3px var(--primary-ultra-light) !important;
+}
+
+/* ========================
+   CARDS Y CONTENEDORES
+   ======================= */
 .element-container {
-    background: var(--white);
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 1rem;
-    border: 1px solid var(--medium-gray);
-    box-shadow: var(--shadow-sm);
+    background: white !important;
+    border-radius: var(--radius-lg) !important;
+    padding: var(--space-xl) !important;
+    margin-bottom: var(--space-lg) !important;
+    border: 1px solid var(--neutral-200) !important;
+    box-shadow: var(--shadow-sm) !important;
+    transition: all 0.3s ease !important;
 }
 
-/* Responsive adjustments */
+.element-container:hover {
+    box-shadow: var(--shadow-md) !important;
+}
+
+/* ========================
+   TABLAS Y DATAFRAMES
+   ======================= */
+.stDataFrame, .stTable {
+    background: white !important;
+    border-radius: var(--radius-lg) !important;
+    border: 1px solid var(--neutral-200) !important;
+    box-shadow: var(--shadow-sm) !important;
+    overflow: hidden !important;
+}
+
+.stDataFrame th, .stTable th {
+    background: var(--neutral-50) !important;
+    color: var(--accent) !important;
+    font-weight: 600 !important;
+    font-size: 0.875rem !important;
+    border-bottom: 2px solid var(--neutral-200) !important;
+    padding: var(--space-md) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+}
+
+.stDataFrame td, .stTable td {
+    padding: var(--space-md) !important;
+    border-bottom: 1px solid var(--neutral-100) !important;
+}
+
+/* ========================
+   SCROLLBAR PERSONALIZADO
+   ======================= */
+::-webkit-scrollbar {
+    width: 6px !important;
+    background: var(--neutral-100) !important;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary) !important;
+    border-radius: 3px !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-dark) !important;
+}
+
+/* ========================
+   RESPONSIVIDAD
+   ======================= */
 @media (max-width: 768px) {
     h1 {
-        font-size: 1.875rem !important;
+        font-size: 2rem !important;
     }
     
     [data-testid="metric-container"] {
-        padding: 1rem !important;
+        padding: var(--space-lg) !important;
     }
     
-    .logo-container img, .header-logo img {
-        max-width: 200px !important;
+    .logo-section {
+        padding: var(--space-xl) var(--space-md) !important;
+    }
+    
+    .logo-section img {
+        max-width: 240px !important;
+    }
+    
+    .main, [data-testid="stAppViewContainer"] > .main {
+        padding: var(--space-lg) var(--space-md) !important;
     }
 }
 </style>
@@ -1593,8 +1682,21 @@ models_ok = all(model is not None for model in [reg, scaler, le_canal, le_format
 # Crear modelo temporal
 modelo_temporal, le_formato_temporal = crear_modelo_temporal_visual(df)
 
-# --- APP STREAMLIT ---
-st.title("✨ Diva Digital: Análisis de Redes Sociales para Marcas")
+# ========================
+# CONFIGURACIÓN PRINCIPAL
+# ========================
+
+# Logo prominente en header
+if logo_base64:
+    header_html = f"""
+    <div class="logo-section">
+        <img src="data:image/png;base64,{logo_base64}" alt="DIVA Digital Logo">
+    </div>
+    """
+    st.markdown(header_html, unsafe_allow_html=True)
+
+# Título principal con diseño profesional
+st.title("🚀 DIVA Digital Intelligence")
 
 tab1, tab2, tab3 = st.tabs(["📊 Informe", "🔮 Modelo Predictivo", "🚀 Next Steps"])
 
