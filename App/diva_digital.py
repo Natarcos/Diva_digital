@@ -1348,22 +1348,13 @@ def cargar_datos_imagenes():
     data_dir = os.path.join(base_dir, "Data")
     
     try:
-        # Ruta relativa al CSV de imágenes (priorizar el actualizado)
-        csv_files = [
-            "publicaciones_pixabay_urls_ejemplo.csv",  # CSV actualizado con URLs
-            "publicaciones_pixabay_ok.csv",            # CSV de fallback
-            "data_demo_ok.csv"                         # CSV de demostración
-        ]
+        # Cargar el CSV de imágenes principal
+        csv_file = "publicaciones_pixabay_ok.csv"
+        csv_path = os.path.join(data_dir, csv_file)
         
-        csv_path = None
-        for csv_file in csv_files:
-            potential_path = os.path.join(data_dir, csv_file)
-            if os.path.exists(potential_path):
-                csv_path = potential_path
-                break
-        
-        # Verificar si encontramos algún archivo CSV
-        if csv_path is None:
+        # Verificar si existe el archivo CSV
+        if not os.path.exists(csv_path):
+            st.error(f"❌ No se encontró el archivo {csv_file} en la carpeta Data.")
             return pd.DataFrame()
         
         # Cargar CSV
@@ -1394,12 +1385,13 @@ def cargar_datos_imagenes():
         # Verificar si hay una columna 'URL_Publica' en el CSV
         if 'URL_Publica' in df_imagenes.columns:
             # Caso ideal: URLs ya están en el CSV
-            df_imagenes['Ruta'] = df_imagenes['URL_Publica']
+            # Usar directamente URL_Publica sin copiar a Ruta
             df_imagenes['imagen_existe'] = True
             df_imagenes['tipo_imagen'] = 'url_publica'
             
         elif 'Ruta' in df_imagenes.columns and df_imagenes['Ruta'].str.contains('http', na=False).any():
-            # Caso: URLs ya están en la columna Ruta
+            # Caso: URLs ya están en la columna Ruta (mantener compatibilidad)
+            df_imagenes['URL_Publica'] = df_imagenes['Ruta']  # Copiar a URL_Publica
             df_imagenes['imagen_existe'] = True
             df_imagenes['tipo_imagen'] = 'url_publica'
             
@@ -1413,7 +1405,7 @@ def cargar_datos_imagenes():
                 except:
                     return f"https://picsum.photos/400/400?random=1"
             
-            df_imagenes['Ruta'] = df_imagenes['Imagen'].apply(generar_url_placeholder)
+            df_imagenes['URL_Publica'] = df_imagenes['Imagen'].apply(generar_url_placeholder)
             df_imagenes['imagen_existe'] = True
             df_imagenes['tipo_imagen'] = 'placeholder'
         
@@ -1750,7 +1742,7 @@ with tab1:
                         resultado = {
                             'Imagen': img_row['Imagen'],
                             'Fecha': img_row['Fecha'],
-                            'Ruta': img_row['Ruta'],
+                            'URL_Publica': img_row['URL_Publica'],
                             'Alcance': best_match.get('Alcance', 0),
                             'Interacciones': best_match.get('Interacciones', 0),
                             'Compras': best_match.get('Compras', 0),
@@ -1795,13 +1787,14 @@ with tab1:
                     
                     for idx, row in df_imgs.iterrows():
                         try:
-                            if os.path.exists(row['Ruta']):
-                                analisis = analizar_imagen_completo(row['Ruta'])
+                            # Verificar si tenemos URL_Publica válida
+                            if pd.notna(row['URL_Publica']) and str(row['URL_Publica']).strip():
+                                analisis = analizar_imagen_completo(row['URL_Publica'])
                                 if analisis['exito']:
                                     resultado = {
                                         'Imagen': row['Imagen'],
                                         'Fecha': row['Fecha'],
-                                        'Ruta': row['Ruta'],
+                                        'URL_Publica': row['URL_Publica'],
                                         'tematica': analisis['tematica_predicha'],
                                         'engagement_score': analisis['engagement_score'],
                                         'colores_dominantes': analisis['colores_dominantes'],
@@ -1853,13 +1846,14 @@ with tab1:
                     
                     for idx, row in df_imgs_metricas.iterrows():
                         try:
-                            if os.path.exists(row['Ruta']):
-                                analisis = analizar_imagen_completo(row['Ruta'])
+                            # Verificar si tenemos URL_Publica válida
+                            if pd.notna(row['URL_Publica']) and str(row['URL_Publica']).strip():
+                                analisis = analizar_imagen_completo(row['URL_Publica'])
                                 if analisis['exito']:
                                     resultado = {
                                         'Imagen': row['Imagen'],
                                         'Fecha': row['Fecha'],
-                                        'Ruta': row['Ruta'],
+                                        'URL_Publica': row['URL_Publica'],
                                         'tematica': analisis['tematica_predicha'],
                                         'engagement_score': analisis['engagement_score'],
                                         'colores_dominantes': analisis['colores_dominantes'],
@@ -2016,7 +2010,7 @@ with tab1:
                                     with cols[j]:
                                         try:
                                             # Mostrar imagen
-                                            st.image(row['Ruta'], 
+                                            st.image(row['URL_Publica'], 
                                                     caption=f"#{i+j+1} - {row['Imagen']}", 
                                                     use_container_width=True)
                                             
@@ -3911,14 +3905,14 @@ with tab2:
                             imagen_seleccionada = st.selectbox("🖼️ Selecciona una imagen", 
                                                             imagenes_fecha['Imagen'].tolist())
                         
-                        # Obtener la ruta de la imagen seleccionada
-                        ruta_imagen = imagenes_fecha[imagenes_fecha['Imagen'] == imagen_seleccionada]['Ruta'].iloc[0]
+                        # Obtener la URL de la imagen seleccionada
+                        url_imagen = imagenes_fecha[imagenes_fecha['Imagen'] == imagen_seleccionada]['URL_Publica'].iloc[0]
                         
                         col_gal1, col_gal2 = st.columns([1, 1])
                         
                         with col_gal1:
                             try:
-                                st.image(ruta_imagen, caption=f"Imagen demo: {imagen_seleccionada}", use_container_width=True)
+                                st.image(url_imagen, caption=f"Imagen demo: {imagen_seleccionada}", use_container_width=True)
                             except Exception as e:
                                 st.error(f"Error cargando imagen: {str(e)}")
                                 st.info("💡 **Consejo**: Para análisis real, usa la pestaña 'Subir Imagen' o 'URL de Imagen'")
@@ -3927,7 +3921,7 @@ with tab2:
                             if st.button("🔍 Analizar Imagen Seleccionada", type="primary"):
                                 with st.spinner("Analizando imagen..."):
                                     try:
-                                        resultado = analizar_imagen_completo(ruta_imagen)
+                                        resultado = analizar_imagen_completo(url_imagen)
                                         
                                         if resultado['exito']:
                                             st.success("✅ Análisis completado")
