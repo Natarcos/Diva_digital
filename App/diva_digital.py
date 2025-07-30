@@ -8,7 +8,8 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, r2_score
 import os
-from datetime import datetime
+import calendar
+from datetime import datetime, timedelta
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -506,7 +507,8 @@ st.set_page_config(
 
 # Definir variables de colores y rutas
 PRIMARY_COLOR = "#8e24aa"
-LOGO_PATH = "/Users/n.arcos89/Desktop/Bootcamp_Data/DIVA_DIGITAL_Proyecto Final/App/logo_diva_digital.png"
+# Ruta relativa para el logo (dentro de la carpeta App)
+LOGO_PATH = os.path.join(os.path.dirname(__file__), "logo_diva_digital.png")
 
 # --- ESTILOS PERSONALIZADOS MEJORADOS ---
 page_bg = """
@@ -1284,9 +1286,17 @@ def cargar_datos():
     """
     Carga el dataset principal con fallback a datos demo
     """
+    import os
+    
+    # Obtener la ruta base del proyecto (un nivel arriba de App/)
+    current_dir = os.path.dirname(__file__)
+    base_dir = os.path.dirname(current_dir)
+    data_dir = os.path.join(base_dir, "Data")
+    
     try:
-        # Intentar cargar el dataset principal
-        df_principal = pd.read_csv("/Users/n.arcos89/Desktop/Bootcamp_Data/DIVA_DIGITAL_Proyecto Final/Data/data_unificada.csv", sep=';')
+        # Intentar cargar el dataset principal desde Data/
+        data_path = os.path.join(data_dir, "data_unificada.csv")
+        df_principal = pd.read_csv(data_path, sep=';')
         
         # Convertir fechas
         if 'Fecha' in df_principal.columns:
@@ -1300,8 +1310,9 @@ def cargar_datos():
     except FileNotFoundError:
         st.warning("⚠️ Dataset principal no encontrado, cargando datos demo...")
         try:
-            # Cargar datos demo como fallback
-            df_demo = pd.read_csv("/Users/n.arcos89/Desktop/Bootcamp_Data/DIVA_DIGITAL_Proyecto Final/Data/data_demo_ok.csv")
+            # Cargar datos demo como fallback desde Data/
+            demo_path = os.path.join(data_dir, "data_demo_ok.csv")
+            df_demo = pd.read_csv(demo_path)
             
             # Convertir fechas
             if 'Fecha' in df_demo.columns:
@@ -1313,7 +1324,7 @@ def cargar_datos():
             return df_demo, "demo"
             
         except FileNotFoundError:
-            st.error("❌ No se encontró ningún archivo de datos. Verifique que existan los archivos CSV.")
+            st.error("❌ No se encontró ningún archivo de datos. Verifique que existan los archivos CSV en la carpeta Data/.")
             return pd.DataFrame(), "none"
             
     except Exception as e:
@@ -1329,8 +1340,16 @@ def cargar_datos_imagenes():
     """
     Carga el CSV con los datos de las imágenes de Pixabay (versión limpia)
     """
+    import os
+    
+    # Obtener la ruta base del proyecto
+    current_dir = os.path.dirname(__file__)
+    base_dir = os.path.dirname(current_dir)
+    data_dir = os.path.join(base_dir, "Data")
+    
     try:
-        csv_path = "/Users/n.arcos89/Desktop/Bootcamp_Data/DIVA_DIGITAL_Proyecto Final/Data/publicaciones_pixabay_ok.csv"
+        # Ruta relativa al CSV de imágenes
+        csv_path = os.path.join(data_dir, "publicaciones_pixabay_ok.csv")
         
         # Verificar si el archivo CSV existe
         if not os.path.exists(csv_path):
@@ -1361,38 +1380,13 @@ def cargar_datos_imagenes():
         if 'Imagen' not in df_imagenes.columns:
             return pd.DataFrame()
         
-        # Definir la ruta donde están las imágenes
-        ruta_base_imagenes = "/Users/n.arcos89/Desktop/Bootcamp_Data/DIVA_DIGITAL_Proyecto Final/Imagenes/imagenes_descargadas"
+        # Para deployment en cloud, solo retornamos el CSV sin verificar archivos físicos
+        # En un entorno de producción, las imágenes podrían estar en un servicio de storage
+        df_imagenes['Ruta'] = df_imagenes['Imagen']  # Usar nombre como ruta temporal
+        df_imagenes['imagen_existe'] = True  # Asumir que existen para el CSV
         
-        if not os.path.exists(ruta_base_imagenes):
-            return pd.DataFrame()
-        
-        # Obtener lista de archivos reales en el directorio
-        try:
-            archivos_reales = [f for f in os.listdir(ruta_base_imagenes) if f.lower().endswith(('.jpg', '.jpeg', '.png', '.gif'))]
-            archivos_reales.sort()
-        except Exception as e:
-            return pd.DataFrame()
-        
-        if len(archivos_reales) == 0:
-            return pd.DataFrame()
-        
-        # Construir rutas
-        def construir_ruta(nombre_imagen):
-            if nombre_imagen and not pd.isna(nombre_imagen):
-                return os.path.join(ruta_base_imagenes, nombre_imagen)
-            return None
-        
-        df_imagenes['Ruta'] = df_imagenes['Imagen'].apply(construir_ruta)
-        
-        # Verificar qué imágenes existen realmente
-        df_imagenes['imagen_existe'] = df_imagenes['Ruta'].apply(
-            lambda x: os.path.exists(x) if x is not None else False
-        )
-        
-        # Filtrar solo las imágenes que existen
-        df_imagenes_validas = df_imagenes[df_imagenes['imagen_existe']].copy()
-        df_imagenes_validas = df_imagenes_validas.dropna(subset=['Imagen', 'Ruta', 'Fecha'])
+        # Filtrar datos válidos
+        df_imagenes_validas = df_imagenes.dropna(subset=['Imagen', 'Fecha'])
         
         return df_imagenes_validas
         
