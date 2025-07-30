@@ -1348,25 +1348,26 @@ def cargar_datos_imagenes():
     data_dir = os.path.join(base_dir, "Data")
     
     try:
-        # Intentar cargar primero el CSV con URLs de ejemplo
-        csv_path_ejemplo = os.path.join(data_dir, "publicaciones_pixabay_urls_ejemplo.csv")
-        csv_path_original = os.path.join(data_dir, "publicaciones_pixabay_ok.csv")
+        # Ruta relativa al CSV de imágenes (priorizar el actualizado)
+        csv_files = [
+            "publicaciones_pixabay_urls_ejemplo.csv",  # CSV actualizado con URLs
+            "publicaciones_pixabay_ok.csv",            # CSV de fallback
+            "data_demo_ok.csv"                         # CSV de demostración
+        ]
         
-        # Priorizar el archivo con URLs de ejemplo
-        if os.path.exists(csv_path_ejemplo):
-            csv_path = csv_path_ejemplo
-            st.sidebar.success("📂 Usando CSV con URLs de ejemplo")
-        elif os.path.exists(csv_path_original):
-            csv_path = csv_path_original
-            st.sidebar.info("📂 Usando CSV original")
-        else:
-            st.sidebar.error("❌ No se encontró ningún CSV de imágenes")
+        csv_path = None
+        for csv_file in csv_files:
+            potential_path = os.path.join(data_dir, csv_file)
+            if os.path.exists(potential_path):
+                csv_path = potential_path
+                break
+        
+        # Verificar si encontramos algún archivo CSV
+        if csv_path is None:
             return pd.DataFrame()
         
         # Cargar CSV
         df_imagenes = pd.read_csv(csv_path)
-        st.sidebar.write(f"📋 Archivo cargado: {os.path.basename(csv_path)}")
-        st.sidebar.write(f"📊 Registros encontrados: {len(df_imagenes)}")
         
         # Convertir fecha si existe
         fecha_col = None
@@ -1392,18 +1393,9 @@ def cargar_datos_imagenes():
         
         # Verificar si hay una columna 'URL_Publica' en el CSV
         if 'URL_Publica' in df_imagenes.columns:
-            # Contar URLs válidas
-            urls_validas = df_imagenes['URL_Publica'].notna().sum()
-            st.sidebar.success(f"🌐 URLs encontradas: {urls_validas} de {len(df_imagenes)}")
-            
-            # Mostrar ejemplos de URLs
-            if urls_validas > 0:
-                urls_ejemplo = df_imagenes[df_imagenes['URL_Publica'].notna()]['URL_Publica'].head(2).tolist()
-                st.sidebar.write(f"🔗 Ejemplos: {[url[:50]+'...' if len(url) > 50 else url for url in urls_ejemplo]}")
-            
             # Caso ideal: URLs ya están en el CSV
             df_imagenes['Ruta'] = df_imagenes['URL_Publica']
-            df_imagenes['imagen_existe'] = df_imagenes['URL_Publica'].notna()
+            df_imagenes['imagen_existe'] = True
             df_imagenes['tipo_imagen'] = 'url_publica'
             
         elif 'Ruta' in df_imagenes.columns and df_imagenes['Ruta'].str.contains('http', na=False).any():
