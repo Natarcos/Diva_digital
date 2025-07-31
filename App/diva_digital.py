@@ -5171,7 +5171,7 @@ st.markdown("""
         Desarrollado con ❤️ para marcas que buscan crecer en redes sociales
     </p>
     <p style='color: #8e24aa; font-size: 0.8rem; margin-top: 1rem;'>
-        © 2024 Diva Digital. Todos los derechos reservados.
+        © 2025 Diva Digital. Todos los derechos reservados.
     </p>
 </div>
 """, unsafe_allow_html=True)
