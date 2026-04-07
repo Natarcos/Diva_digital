@@ -21,7 +21,7 @@
 - 🎨 Creadores de contenido
 - 💼 Consultoras de marketing digital
 
-Visíta la app: https://divadigital.streamlit.app/
+Visíta la app: https://oraculo.streamlit.app/
 
 ---
 
@@ -269,18 +269,18 @@ Diva_digital/
 
 ### 👩‍💻 **Equipo de Desarrollo**
 - **Lead Developer**: [@Natarcos](https://github.com/Natarcos)
-- **Email**: contacto@divadigital.com
+- **Email**: contacto@oraculo.com
 - **LinkedIn**: [Diva Digital](https://linkedin.com/company/diva-digital)
 
 ### 🆘 **Soporte**
-- 📧 **Email**: soporte@divadigital.com
-- 💬 **Discord**: [Comunidad Diva Digital](https://discord.gg/divadigital)
+- 📧 **Email**: soporte@oraculo.com
+- 💬 **Discord**: [Comunidad Oráculo](https://discord.gg/oraculo)
 - 📱 **WhatsApp Business**: +34 XXX XXX XXX
 
 ### 🌐 **Síguenos**
-- 📷 [Instagram @divadigital](https://instagram.com/divadigital)
-- 📘 [Facebook Diva Digital](https://facebook.com/divadigital)
-- 🎵 [TikTok @divadigital](https://tiktok.com/@divadigital)
+- 📷 [Instagram @oraculo](https://instagram.com/oraculo)
+- 📘 [Facebook Oráculo](https://facebook.com/oraculo)
+- 🎵 [TikTok @oraculo](https://tiktok.com/@oraculo)
 
 ---
 
