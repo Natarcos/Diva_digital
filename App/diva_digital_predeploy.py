@@ -506,7 +506,7 @@ st.set_page_config(
 
 # Definir variables de colores y rutas
 PRIMARY_COLOR = "#8e24aa"
-LOGO_PATH = "/Users/n.arcos89/Desktop/Bootcamp_Data/DIVA_DIGITAL_Proyecto Final/App/logo_diva_digital.png"
+LOGO_PATH = "/Users/n.arcos89/Documents/GitHub/Diva_digital/App/Logo-oraculo.png.png"
 
 # --- ESTILOS PERSONALIZADOS MEJORADOS ---
 page_bg = """

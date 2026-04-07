@@ -21,7 +21,7 @@ from io import BytesIO
 
 # Configuración de la página
 st.set_page_config(
-    page_title="Diva Digital - Análisis de Redes Sociales",
+    page_title="Oráculo - Análisis de Redes Sociales",
     page_icon="💜",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -29,7 +29,7 @@ st.set_page_config(
 
 # Definir variables de colores y rutas
 PRIMARY_COLOR = "#8e24aa"
-LOGO_PATH = os.path.join("App", "logo_diva_digital.png")
+LOGO_PATH = os.path.join("App", "Logo-oraculo.png")
 
 # --- ESTILOS PERSONALIZADOS MEJORADOS ---
 page_bg = """
