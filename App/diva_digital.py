@@ -8,6 +8,12 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, r2_score
 import os
+# Comprobar que la ruta relativa a Data existe cuando se ejecuta desde la raíz
+if __name__ == '__main__':
+    data_dir = os.path.join(os.path.dirname(__file__), '..', 'Data')
+    if not os.path.exists(os.path.abspath(data_dir)):
+        print(f"ERROR: No se encontró el directorio de datos: {os.path.abspath(data_dir)}")
+        print("Si ejecutas desde la raíz, usa: streamlit run main.py")
 import calendar
 from datetime import datetime, timedelta
 import warnings
