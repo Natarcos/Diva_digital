@@ -1,4 +1,4 @@
-# 💜 Diva Digital - Empodera tu Estrategia en Redes Sociales
+# � Oráculo - Predice tu Estrategia en Redes Sociales
 
 <div align="center">
     <img src="https://img.shields.io/badge/Python-3.8+-blue.svg" alt="Python">
@@ -10,9 +10,9 @@
 
 ---
 
-## 🌟 ¿Qué es Diva Digital?
+## 🌟 ¿Qué es Oráculo?
 
-**Diva Digital** es una plataforma inteligente diseñada específicamente para **mujeres emprendedoras** que buscan maximizar el impacto de sus redes sociales. Utilizando **Machine Learning** y **Computer Vision**, transformamos datos en insights accionables para impulsar tu marca digital.
+**Oráculo** es una plataforma inteligente diseñada específicamente para **mujeres emprendedoras** que buscan maximizar el impacto de sus redes sociales. Utilizando **Machine Learning** y **Computer Vision**, transformamos datos en insights accionables para impulsar tu marca digital.
 
 ### 🎯 **¿Para quién es?**
 - 👩‍💼 Emprendedoras digitales
@@ -81,7 +81,7 @@ Visíta la app: https://divadigital.streamlit.app/
 - Evolución temporal del crecimiento
 - Identificación de picos y valles de audiencia
 
-#### ❤️ **Análisis de Interacción**
+#### 🔮 **Análisis de Interacción**
 - Rate de engagement detallado
 - Análisis de comentarios y shares
 - Identificación de contenido viral
@@ -136,7 +136,7 @@ Output: Alcance estimado + Intervalo de confianza
 
 ## 🎨 Interfaz y Experiencia de Usuario
 
-### 💜 **Diseño Centrado en la Usuaria**
+### � **Diseño Centrado en la Usuaria**
 - **Colores**: Paleta rosa-morado que refleja empoderamiento femenino
 - **UX Intuitiva**: Navegación simple y clara
 - **Responsive**: Adaptada a todos los dispositivos
@@ -304,8 +304,8 @@ Gracias a todas las emprendedoras que han probado la beta y han aportado feedbac
 ---
 
 <div align="center">
-    <h3>💜 Hecho con ❤️ para emprendedoras que sueñan en grande</h3>
-    <p><strong>Diva Digital - Empodera tu estrategia digital</strong></p>
+    <h3>� Hecho con 🔮 para emprendedoras que sueñan en grande</h3>
+    <p><strong>Oráculo - Predice tu estrategia digital</strong></p>
     
     ⭐ **¡Si te gusta el proyecto, dale una estrella!** ⭐
 </div>
