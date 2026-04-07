@@ -137,16 +137,10 @@ Output: Alcance estimado + Intervalo de confianza
 ## 🎨 Interfaz y Experiencia de Usuario
 
 ### � **Diseño Centrado en la Usuaria**
-- **Colores**: Paleta rosa-morado que refleja empoderamiento femenino
+**Colores**: Paleta rosa-morado enfocada en predicción digital
 - **UX Intuitiva**: Navegación simple y clara
-- **Responsive**: Adaptada a todos los dispositivos
-- **Accesibilidad**: Diseño inclusivo y accesible
-
-### 📊 **Visualizaciones Interactivas**
 - Gráficos dinámicos con Plotly
-- Dashboards personalizables
-- Exportación de reportes en PDF
-- Métricas en tiempo real
+**LinkedIn**: [Oráculo](https://linkedin.com/company/diva-digital)
 
 ---
 
@@ -270,7 +264,7 @@ Diva_digital/
 ### 👩‍💻 **Equipo de Desarrollo**
 - **Lead Developer**: [@Natarcos](https://github.com/Natarcos)
 - **Email**: contacto@oraculo.com
-- **LinkedIn**: [Diva Digital](https://linkedin.com/company/diva-digital)
+- **LinkedIn**: [Oráculo](https://linkedin.com/company/diva-digital)
 
 ### 🆘 **Soporte**
 - 📧 **Email**: soporte@oraculo.com

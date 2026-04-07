@@ -359,7 +359,7 @@ def mostrar_estadisticas_planificacion(planificacion):
     
     with col4:
         engagement_total = df_plan['engagement_esperado'].sum()
-        st.metric("❤️ Engagement Esperado", f"{engagement_total:,}")
+        st.metric("🔮 Engagement Esperado", f"{engagement_total:,}")
     
     # Distribución por formato
     st.markdown("#### 📊 Distribución por Formato")
@@ -1273,7 +1273,7 @@ with col_logo_center:
         st.markdown("""
         <div style="text-align: center; margin: 2rem 0;">
             <h1 style="font-size: 3.5rem; color: #4a148c; margin: 0;">🔮 ORÁCULO</h1>
-            <p style="font-size: 1.3rem; color: #6a1b9a; margin: 0.5rem 0;">Empodera tu estrategia digital</p>
+            <p style="font-size: 1.3rem; color: #6a1b9a; margin: 0.5rem 0;">Predice tu estrategia digital</p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -1603,7 +1603,7 @@ with tab1:
         st.error("No hay datos para mostrar el informe")
     else:
         subtab1, subtab2, subtab3, subtab4, subtab5, subtab6, subtab7 = st.tabs([
-            "📈 Resumen", "🖼️ Imágenes", "👁️ Visibilidad", "❤️ Interacción", "▶️ Reproducciones", "🛒 Conversión", "💰 Retorno"
+            "📈 Resumen", "🖼️ Imágenes", "👁️ Visibilidad", "🔮 Interacción", "▶️ Reproducciones", "🛒 Conversión", "💰 Retorno"
         ])
         
         with subtab1:
@@ -1997,7 +1997,7 @@ with tab1:
                         if 'Alcance' in metricas_disponibles:
                             tabs_nombres.append("👁️ Top Visibilidad")
                         if 'Interacciones' in metricas_disponibles:
-                            tabs_nombres.append("❤️ Top Interacción")
+                            tabs_nombres.append("🔮 Top Interacción")
                         if 'Valor_compra' in metricas_disponibles:
                             tabs_nombres.append("🛒 Top Ventas")
                         
@@ -2062,7 +2062,7 @@ with tab1:
                         
                         if 'Interacciones' in metricas_disponibles:
                             with tabs_metricas[tab_index]:
-                                crear_ranking_tabla(df_analisis, 'Interacciones', "Imágenes con Mayor Interacción", "❤️")
+                                crear_ranking_tabla(df_analisis, 'Interacciones', "Imágenes con Mayor Interacción", "🔮")
                             tab_index += 1
                         
                         if 'Valor_compra' in metricas_disponibles:
@@ -2346,7 +2346,7 @@ with tab1:
                 st.warning("⚠️ No se encontró columna de alcance")
 
         with subtab4:
-            st.subheader("❤️ Interacción")
+            st.subheader("🔮 Interacción")
             
             if 'Interacciones' in df_filtrado.columns:
                 # Métricas principales 
@@ -2911,7 +2911,7 @@ with tab1:
                                                 <p><strong>🎯 Engagement:</strong> {video['Engagement_Rate']:.2f}%</p>
                                                 <p><strong>▶️ Reproducciones:</strong> {video['Reproducciones']:,.0f}</p>
                                                 <p><strong>👁️ Alcance:</strong> {video['Alcance']:,.0f}</p>
-                                                <p><strong>❤️ Interacciones:</strong> {video['Interacciones']:,.0f}</p>
+                                                <p><strong>🔮 Interacciones:</strong> {video['Interacciones']:,.0f}</p>
                                                 <p><strong>📱 Canal:</strong> {video['Canal']}</p>
                                                 <p><strong>📅 Fecha:</strong> {video['Fecha'].strftime('%d/%m/%Y')}</p>
                                             </div>
@@ -2954,7 +2954,7 @@ with tab1:
                             tabla_display = tabla_top10[columnas_finales].copy()
                             
                             # Renombrar columnas
-                            nombres_columnas = ['🏅 Rank', '🎬 Video', '🎯 Engagement', '▶️ Reproducciones', '👁️ Alcance', '❤️ Interacciones', '📱 Canal', '📅 Fecha']
+                            nombres_columnas = ['🏅 Rank', '🎬 Video', '🎯 Engagement', '▶️ Reproducciones', '👁️ Alcance', '🔮 Interacciones', '📱 Canal', '📅 Fecha']
                             
                             if 'Duracion_video' in columnas_finales:
                                 nombres_columnas.append('⏱️ Duración')
@@ -3329,7 +3329,7 @@ with tab1:
                         if 'Interacciones' in tabla_ventas.columns:
                             tabla_ventas['Interacciones_Formateado'] = tabla_ventas['Interacciones'].apply(lambda x: f"{x:,.0f}")
                             columnas_finales.append('Interacciones_Formateado')
-                            nombres_columnas.append('❤️ Interacciones')
+                            nombres_columnas.append('🔮 Interacciones')
                         
                         if 'Valor_compra' in tabla_ventas.columns:
                             tabla_ventas['Valor_Formateado'] = tabla_ventas['Valor_compra'].apply(lambda x: f"{x:,.2f}€")
@@ -3782,7 +3782,7 @@ with tab2:
                     st.success(f"🎯 **Alcance Predicho: {resultado['alcance']:,.0f} personas**")
                     
                     col_metric1, col_metric2 = st.columns(2)
-                    col_metric1.metric("❤️ Interacciones Estimadas", f"{resultado['engagement']:,.0f}")
+                    col_metric1.metric("🔮 Interacciones Estimadas", f"{resultado['engagement']:,.0f}")
                     col_metric2.metric("💰 Costo por Alcance", f"{resultado['costo_por_alcance']:.4f}€")
                     
                     # Mostrar configuración usada
@@ -4252,7 +4252,7 @@ with tab2:
                                 
                                 with col_pred2:
                                     engagement_estimado = int(alcance_predicho * 0.035)
-                                    st.metric("❤️ Engagement Estimado", f"{engagement_estimado:,}")
+                                    st.metric("🔮 Engagement Estimado", f"{engagement_estimado:,}")
                                 
                             except Exception as e:
                                 st.info("💡 Para predicciones más precisas, asegúrate de que todos los modelos estén disponibles")
@@ -4681,7 +4681,7 @@ def mostrar_estadisticas_planificacion(planificacion):
     
     with col4:
         engagement_total = df_plan['engagement_esperado'].sum()
-        st.metric("❤️ Engagement Esperado", f"{engagement_total:,}")
+    st.metric("🔮 Engagement Esperado", f"{engagement_total:,}")
     
     # Distribución por formato
     st.markdown("#### 📊 Distribución por Formato")
@@ -5169,12 +5169,12 @@ with tab3:
 st.markdown("---")
 st.markdown("""
 <div style='text-align: center; padding: 2rem; background: rgba(255,255,255,0.8); border-radius: 15px; margin-top: 2rem;'>
-    <h3 style='color: #4a148c; margin-bottom: 1rem;'>🔮 Oraculo</h3>
+    <h3 style='color: #4a148c; margin-bottom: 1rem;'>🔮 Oráculo</h3>
     <p style='color: #6a1b9a; font-size: 1.1rem; margin-bottom: 1rem;'>
-        <strong>Precide tu estrategia digital con datos inteligentes</strong>
+        <strong>Predice tu estrategia digital con datos inteligentes</strong>
     </p>
-    <p style='color: #8e24aa; font-size: 0.9rem;'>
-        Desarrollado con ❤️ para marcas que buscan crecer en redes sociales
+        <p style='color: #8e24aa; font-size: 0.9rem;'>
+        Desarrollado con 🔮 para marcas que buscan crecer en redes sociales
     </p>
     <p style='color: #8e24aa; font-size: 0.8rem; margin-top: 1rem;'>
         © 2025 Oráculo. Todos los derechos reservados.
