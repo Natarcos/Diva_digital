@@ -1433,9 +1433,12 @@ def cargar_datos_imagenes():
 df_imagenes = cargar_datos_imagenes()
 
 # --- SIDEBAR: LOGO, FILTROS Y RESUMEN ---
-# Logo en el sidebar
-if os.path.exists(LOGO_PATH):
-    st.sidebar.image(LOGO_PATH, width=150, use_container_width=False)
+# Logo en el sidebar (centrado)
+if LOGO_PATH and os.path.exists(LOGO_PATH):
+    # Use three columns inside the sidebar to center the image
+    c1, c2, c3 = st.sidebar.columns([1, 2, 1])
+    with c2:
+        st.image(LOGO_PATH, width=150, use_container_width=False)
 else:
     st.sidebar.markdown("""
     <div style='text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.1); border-radius: 15px; margin-bottom: 1rem;'>
@@ -1594,10 +1597,11 @@ modelo_temporal, le_formato_temporal = crear_modelo_temporal_visual(df)
 # --- APP STREAMLIT ---
 st.title("✨ Oráculo: Análisis de Redes Sociales para Marcas")
 
-tab1, tab2, tab3 = st.tabs(["📊 Informe", "🔮 Modelo Predictivo", "🚀 Next Steps"])
+# Navegación principal: usar radio en sidebar para mantener la página tras reruns
+nav = st.sidebar.radio("Navegación", ["📊 Informe", "🔮 Modelo Predictivo", "🚀 Next Steps"], index=0, key="main_nav")
 
 # --- TAB 1: INFORME ---
-with tab1:
+if nav == "📊 Informe":
     st.header("📊 Informe Interanual")
     if df_filtrado.empty:
         st.error("No hay datos para mostrar el informe")
@@ -3721,7 +3725,7 @@ with tab1:
                 st.info("💡 Asegúrate de que tu dataset contenga las columnas 'Valor_compra' e 'Inversion' para ver este análisis")
 
 # --- TAB 2: MODELO PREDICTIVO ---
-with tab2:
+elif nav == "🔮 Modelo Predictivo":
     st.header("🔮 Modelo Predictivo")
     
     if not models_ok:
@@ -4792,7 +4796,7 @@ def mostrar_insights_historicos(df, canal):
             st.info(f"👁️ **Alcance promedio histórico**: {alcance_promedio:,.0f}")
             
 # --- TAB 3: NEXT STEPS ---
-with tab3:
+elif nav == "🚀 Next Steps":
     st.header("🎯 Plan de Acción Personalizado")
     st.markdown("**Recomendaciones específicas basadas en tu análisis de datos actual**")
     
