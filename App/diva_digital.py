@@ -499,8 +499,8 @@ def mostrar_insights_historicos(df, canal):
 
 # Configuración de la página
 st.set_page_config(
-    page_title="Diva Digital - Análisis de Redes Sociales",
-    page_icon="💜",
+    page_title="Oráculo - Análisis de Redes Sociales",
+    page_icon="🔮",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -508,7 +508,7 @@ st.set_page_config(
 # Definir variables de colores y rutas
 PRIMARY_COLOR = "#8e24aa"
 # Ruta relativa para el logo (dentro de la carpeta App)
-LOGO_PATH = os.path.join(os.path.dirname(__file__), "logo_diva_digital.png")
+LOGO_PATH = os.path.join(os.path.dirname(__file__), "lApp/Logo-oraculo.png")
 
 # --- ESTILOS PERSONALIZADOS MEJORADOS ---
 page_bg = """
@@ -1266,7 +1266,7 @@ with col_logo_center:
     else:
         st.markdown("""
         <div style="text-align: center; margin: 2rem 0;">
-            <h1 style="font-size: 3.5rem; color: #4a148c; margin: 0;">💜 DIVA DIGITAL</h1>
+            <h1 style="font-size: 3.5rem; color: #4a148c; margin: 0;">🔮 ORÁCULO</h1>
             <p style="font-size: 1.3rem; color: #6a1b9a; margin: 0.5rem 0;">Empodera tu estrategia digital</p>
         </div>
         """, unsafe_allow_html=True)
@@ -1275,7 +1275,7 @@ with col_logo_center:
 st.markdown("""
 <div style='background:rgba(255,255,255,0.9);padding:1.2em 2em;border-radius:18px;margin-bottom:1.5em;box-shadow:0 4px 15px rgba(142,36,170,0.1);border-left: 4px solid #e91e63;'>
     <span style='font-size:1.2em;color:#e91e63;'><b>¿Quieres impulsar tu marca en redes sociales?</b></span><br>
-    <span style='color:#4a148c;'>Diva Digital te ayuda a <b>analizar, visualizar y predecir</b> el rendimiento de tus publicaciones en Instagram, Facebook y TikTok.<br>
+    <span style='color:#4a148c;'>Oráculo te ayuda a <b>analizar, visualizar y predecir</b> el rendimiento de tus publicaciones en Instagram, Facebook y TikTok.<br>
     Descubre qué funciona mejor, optimiza tu inversión y toma decisiones basadas en datos, ¡todo en una interfaz atractiva y sencilla!</span>
 </div>
 """, unsafe_allow_html=True)
@@ -1433,13 +1433,13 @@ if os.path.exists(LOGO_PATH):
 else:
     st.sidebar.markdown("""
     <div style='text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.1); border-radius: 15px; margin-bottom: 1rem;'>
-        <h2 style='margin: 0; color: #fff; font-size: 1.5rem;'>💜 DIVA DIGITAL</h2>
+        <h2 style='margin: 0; color: #fff; font-size: 1.5rem;'>🔮 ORÁCULO</h2>
         <p style='margin: 0; color: #fff; font-size: 0.9rem;'>Analytics & Insights</p>
     </div>
     """, unsafe_allow_html=True)
 
 st.sidebar.markdown("<h3 style='color: var(--text-primary); text-align: center;'>📊 Panel de Control</h3>", unsafe_allow_html=True)
-st.sidebar.markdown("<p style='color: var(--text-primary); text-align: center;'>Empodera tu estrategia digital con datos 💫</p>", unsafe_allow_html=True)
+st.sidebar.markdown("<p style='color: var(--text-primary); text-align: center;'>Precide tu estrategia digital con datos 💫</p>", unsafe_allow_html=True)
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("### 🔎 Filtra tus datos")
@@ -1586,7 +1586,7 @@ models_ok = all(model is not None for model in [reg, scaler, le_canal, le_format
 modelo_temporal, le_formato_temporal = crear_modelo_temporal_visual(df)
 
 # --- APP STREAMLIT ---
-st.title("✨ Diva Digital: Análisis de Redes Sociales para Marcas")
+st.title("✨ Oráculo: Análisis de Redes Sociales para Marcas")
 
 tab1, tab2, tab3 = st.tabs(["📊 Informe", "🔮 Modelo Predictivo", "🚀 Next Steps"])
 
@@ -4997,7 +4997,7 @@ with tab3:
             "**Hootsuite/Buffer**: Programación automática",
             "**Canva Pro**: Creación visual optimizada",
             "**Google Analytics**: Tracking de conversiones",
-            "**Diva Digital**: Análisis predictivo (¡ya lo tienes!)"
+            "**Oráculo**: Análisis predictivo (¡ya lo tienes!)"
         ]
         
         for herramienta in herramientas:
@@ -5021,7 +5021,7 @@ with tab3:
     st.markdown("## 📅 Tu Plan de Acción Semanal")
     
     plan_semanal = {
-        "Lunes": "📊 Revisar métricas de la semana anterior en Diva Digital",
+        "Lunes": "📊 Revisar métricas de la semana anterior en Oráculo",
         "Martes": "🎨 Crear contenido usando recomendaciones del analizador visual",
         "Miércoles": "📱 Publicar en tu canal principal en horario óptimo",
         "Jueves": "🔍 Analizar rendimiento y ajustar siguiente publicación",
@@ -5113,7 +5113,7 @@ with tab3:
     
     with col_feedback2:
         st.markdown("#### ⭐ Califica tu Experiencia")
-        rating = st.select_slider("¿Qué tal tu experiencia con Diva Digital?", 
+        rating = st.select_slider("¿Qué tal tu experiencia con Oráculo?", 
                                 options=[1, 2, 3, 4, 5],
                                 format_func=lambda x: "⭐" * x)
         
@@ -5138,40 +5138,40 @@ with tab3:
     with col_contact1:
         st.markdown("""
         #### 📧 Contacto
-        - **Email**: info@divadigital.com
-        - **Soporte**: support@divadigital.com
-        - **Ventas**: sales@divadigital.com
+        - **Email**: infooraculo.com
+        - **Soporte**: support@oraculo.com
+        - **Ventas**: sales@oraculo.com
         """)
     
     with col_contact2:
         st.markdown("""
         #### 🌐 Síguenos
-        - **LinkedIn**: /company/diva-digital
-        - **Instagram**: @divadigital_official
-        - **Twitter**: @DivaDigitalApp
+        - **LinkedIn**: /company/oraculo
+        - **Instagram**: @oraculoofficial
+        - **Twitter**: @oraculoApp
         """)
     
     with col_contact3:
         st.markdown("""
         #### 📚 Recursos
-        - **Documentación**: docs.divadigital.com
-        - **Blog**: blog.divadigital.com
-        - **Webinars**: events.divadigital.com
+        - **Documentación**: docs.oraculo.com
+        - **Blog**: blog.oraculo.com
+        - **Webinars**: events.oraculo.com
         """)
 
 # --- FOOTER ---
 st.markdown("---")
 st.markdown("""
 <div style='text-align: center; padding: 2rem; background: rgba(255,255,255,0.8); border-radius: 15px; margin-top: 2rem;'>
-    <h3 style='color: #4a148c; margin-bottom: 1rem;'>💜 Diva Digital</h3>
+    <h3 style='color: #4a148c; margin-bottom: 1rem;'>🔮 Oraculo</h3>
     <p style='color: #6a1b9a; font-size: 1.1rem; margin-bottom: 1rem;'>
-        <strong>Empodera tu estrategia digital con datos inteligentes</strong>
+        <strong>Precide tu estrategia digital con datos inteligentes</strong>
     </p>
     <p style='color: #8e24aa; font-size: 0.9rem;'>
         Desarrollado con ❤️ para marcas que buscan crecer en redes sociales
     </p>
     <p style='color: #8e24aa; font-size: 0.8rem; margin-top: 1rem;'>
-        © 2025 Diva Digital. Todos los derechos reservados.
+        © 2025 Oráculo. Todos los derechos reservados.
     </p>
 </div>
 """, unsafe_allow_html=True)
