@@ -549,33 +549,47 @@ body {
     background: var(--background-primary);
 }
 
-/* SIDEBAR PROFESIONAL */
+/* SIDEBAR PROFESIONAL - reemplazar por este bloque para mayor contraste y logo centrado */
 section[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #1e293b 0%, #334155 100%);
-    border-right: 1px solid var(--border-color);
+    background: linear-gradient(180deg, #0f1724 0%, #1f2a38 100%) !important; /* más legible */
+    border-right: 1px solid rgba(255,255,255,0.06) !important;
+    padding-top: 1.5rem !important;
+    box-shadow: 0 8px 24px rgba(2,6,23,0.35);
 }
 
+/* Forzar que las imágenes en el sidebar se centren y tengan tamaño controlado */
+section[data-testid="stSidebar"] img,
+section[data-testid="stSidebar"] .stImage > img {
+    display: block !important;
+    margin: 0.6rem auto !important;
+    max-width: 140px !important;
+    height: auto !important;
+    border-radius: 8px;
+}
+
+/* Fondo transparente de contenedores internos del sidebar */
 section[data-testid="stSidebar"] > div {
-    background: transparent;
-    padding-top: 2rem;
+    background: transparent !important;
+    padding-top: 1.2rem !important;
 }
 
-/* Texto del sidebar */
+/* Texto del sidebar: asegurar alta legibilidad */
 section[data-testid="stSidebar"] .markdown-text-container,
 section[data-testid="stSidebar"] label,
 section[data-testid="stSidebar"] .stSelectbox label,
-section[data-testid="stSidebar"] .stMultiSelect label {
-    color: #f1f5f9 !important;
-    font-weight: 500;
+section[data-testid="stSidebar"] .stMultiSelect label,
+section[data-testid="stSidebar"] .stTextInput label,
+section[data-testid="stSidebar"] .stNumberInput label {
+    color: #f8fafc !important;
+    font-weight: 600;
 }
 
 section[data-testid="stSidebar"] h1,
 section[data-testid="stSidebar"] h2,
 section[data-testid="stSidebar"] h3 {
     color: #ffffff !important;
-    font-weight: 700;
+    font-weight: 800;
 }
-
 /* HEADER CON LOGO */
 .header-container {
     background: var(--background-secondary);
@@ -897,13 +911,17 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 if os.path.exists(LOGO_PATH):
-    col_logo_left, col_logo_center, col_logo_right = st.columns([1, 2, 1])
-    with col_logo_center:
-        st.image(LOGO_PATH, width=400)
+    st.sidebar.markdown(
+        f"<div style='text-align:center;padding:0.6rem 0;background:transparent;border-radius:8px;'>"
+        f"<img src='file://{LOGO_PATH}' style='max-width:140px;height:auto;border-radius:8px;display:block;margin:0 auto;'>"
+        f"</div>", unsafe_allow_html=True
+    )
 else:
-    st.markdown("""
-        <h1 class="brand-title">🔮 ORÁCULO</h1>
-        <p class="brand-subtitle"> Predice tu estrategia digital con datos inteligentes</p>
+    st.sidebar.markdown("""
+    <div style='text-align: center; padding: 1rem; background: rgba(255,255,255,0.6); border-radius: 12px; margin-bottom: 1rem;'>
+        <h2 style='margin: 0; color: #0f1724; font-size: 1.5rem;'>🔮 ORÁCULO</h2>
+        <p style='margin: 0; color: #0f1724; font-size: 0.9rem;'>Analytics & Insights</p>
+    </div>
     """, unsafe_allow_html=True)
 
 st.markdown("""
@@ -1509,7 +1527,7 @@ else:
     """, unsafe_allow_html=True)
 
 st.sidebar.markdown("<h3 style='color:#fff; text-align: center;'>📊 Panel de Control</h3>", unsafe_allow_html=True)
-st.sidebar.markdown("<p style='color:#fff; text-align: center;'>Empodera tu estrategia digital con datos 💫</p>", unsafe_allow_html=True)
+st.sidebar.markdown("<p style='color:#fff; text-align: center;'>Predice tu estrategia digital con datos 💫</p>", unsafe_allow_html=True)
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("### 🔎 Filtra tus datos")
@@ -4860,7 +4878,7 @@ st.markdown("""
 <div style='text-align: center; padding: 2rem; background: rgba(255,255,255,0.8); border-radius: 15px; margin-top: 2rem;'>
     <h3 style='color: #4a148c; margin-bottom: 1rem;'>🔮 Oráculo</h3>
     <p style='color: #6a1b9a; font-size: 1.1rem; margin-bottom: 1rem;'>
-        <strong>Empodera tu estrategia digital con datos inteligentes</strong>
+        <strong>Predice tu estrategia digital con datos inteligentes</strong>
     </p>
     <p style='color: #8e24aa; font-size: 0.9rem;'>
         Desarrollado con 🔮 para marcas que buscan crecer en redes sociales
