@@ -8,14 +8,7 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, r2_score
 import os
-# Comprobar que la ruta relativa a Data existe cuando se ejecuta desde la raíz
-if __name__ == '__main__':
-    data_dir = os.path.join(os.path.dirname(__file__), '..', 'Data')
-    if not os.path.exists(os.path.abspath(data_dir)):
-        print(f"ERROR: No se encontró el directorio de datos: {os.path.abspath(data_dir)}")
-        print("Si ejecutas desde la raíz, usa: streamlit run main.py")
-import calendar
-from datetime import datetime, timedelta
+from datetime import datetime
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -359,7 +352,7 @@ def mostrar_estadisticas_planificacion(planificacion):
     
     with col4:
         engagement_total = df_plan['engagement_esperado'].sum()
-        st.metric("🔮 Engagement Esperado", f"{engagement_total:,}")
+        st.metric("❤️ Engagement Esperado", f"{engagement_total:,}")
     
     # Distribución por formato
     st.markdown("#### 📊 Distribución por Formato")
@@ -505,7 +498,7 @@ def mostrar_insights_historicos(df, canal):
 
 # Configuración de la página
 st.set_page_config(
-    page_title="Oráculo - Análisis de Redes Sociales",
+    page_title="oráculo - Análisis de Redes Sociales",
     page_icon="🔮",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -513,109 +506,147 @@ st.set_page_config(
 
 # Definir variables de colores y rutas
 PRIMARY_COLOR = "#8e24aa"
-# Ruta para el logo (dentro de la carpeta App)
-LOGO_PATH = os.path.join(os.path.dirname(__file__), "/Users/n.arcos89/Documents/GitHub/Diva_digital/App/Logo-oraculo.png")
+LOGO_PATH = "/Users/n.arcos89/Documents/GitHub/Diva_digital/App/Logo-oraculo.png"
 
 # --- ESTILOS PERSONALIZADOS MEJORADOS ---
 page_bg = """
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-    --primary-purple: #6B46C1;
-    --dark-purple: #4C1D95;
-    --light-gray: #F8FAFC;
-    --medium-gray: #E2E8F0;
-    --dark-gray: #334155;
-    --text-primary: #1E293B;
-    --text-secondary: #64748B;
-    --white: #FFFFFF;
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --primary-color: #6366f1;
+    --secondary-color: #8b5cf6;
+    --accent-color: #ec4899;
+    --background-primary: #fafbfc;
+    --background-secondary: #ffffff;
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+    --border-color: #e5e7eb;
+    --shadow-light: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-large: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    --gradient-accent: linear-gradient(135deg, #ec4899 0%, #f97316 100%);
 }
 
-/* Reset y configuración base */
-* {
-    box-sizing: border-box;
-}
-
-body, .main, [data-testid="stAppViewContainer"] > .main {
-    background: var(--light-gray) !important;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
-    color: var(--text-primary) !important;
+/* CONFIGURACIÓN GENERAL */
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--background-primary);
+    color: var(--text-primary);
     line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-/* Sidebar moderno y limpio */
-section[data-testid="stSidebar"], .css-1d391kg, section[data-testid="stSidebar"] > div {
-    background: var(--white) !important;
-    color: var(--text-primary) !important;
-    border-right: 1px solid var(--medium-gray) !important;
-    box-shadow: var(--shadow-md);
+/* CONTENEDOR PRINCIPAL */
+[data-testid="stAppViewContainer"] > .main {
+    background: var(--background-primary);
+    padding: 0;
 }
 
+[data-testid="stAppViewContainer"] {
+    background: var(--background-primary);
+}
+
+/* SIDEBAR PROFESIONAL */
+section[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #1e293b 0%, #334155 100%);
+    border-right: 1px solid var(--border-color);
+}
+
+section[data-testid="stSidebar"] > div {
+    background: transparent;
+    padding-top: 2rem;
+}
+
+/* Texto del sidebar */
 section[data-testid="stSidebar"] .markdown-text-container,
 section[data-testid="stSidebar"] label,
 section[data-testid="stSidebar"] .stSelectbox label,
-section[data-testid="stSidebar"] .stMultiSelect label,
-section[data-testid="stSidebar"] .stDateInput label {
-    color: var(--text-primary) !important;
+section[data-testid="stSidebar"] .stMultiSelect label {
+    color: #f1f5f9 !important;
     font-weight: 500;
-    font-size: 0.875rem;
 }
 
-/* Tipografía profesional */
+section[data-testid="stSidebar"] h1,
+section[data-testid="stSidebar"] h2,
+section[data-testid="stSidebar"] h3 {
+    color: #ffffff !important;
+    font-weight: 700;
+}
+
+/* HEADER CON LOGO */
+.header-container {
+    background: var(--background-secondary);
+    padding: 2rem 3rem;
+    margin: -1rem -1rem 2rem -1rem;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--shadow-light);
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.brand-title {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 3rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0;
+}
+
+.brand-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.25rem;
+    font-weight: 500;
+    text-align: center;
+    margin: 0.5rem 0 0 0;
+}
+
+/* TIPOGRAFÍA MODERNA */
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Inter', sans-serif !important;
-    color: var(--text-primary) !important;
-    font-weight: 600;
-    letter-spacing: -0.025em;
-    line-height: 1.25;
-    margin-bottom: 1rem;
-}
-
-h1 {
-    font-size: 2.25rem !important;
     font-weight: 700 !important;
-    color: var(--primary-purple) !important;
-    text-align: center;
-    margin-bottom: 2rem;
-    letter-spacing: -0.05em;
+    color: var(--text-primary) !important;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
 }
 
-h2 {
-    font-size: 1.875rem !important;
-    color: var(--primary-purple) !important;
-    margin-bottom: 1.5rem;
+h1 { font-size: 2.5rem !important; }
+h2 { font-size: 2rem !important; }
+h3 { font-size: 1.5rem !important; }
+h4 { font-size: 1.25rem !important; }
+
+.main p {
+    color: var(--text-secondary) !important;
+    font-size: 0.95rem;
+    line-height: 1.7;
 }
 
-h3 {
-    font-size: 1.5rem !important;
-    margin-bottom: 1rem;
-}
-
-h4 {
-    font-size: 1.25rem !important;
-    margin-bottom: 0.75rem;
-}
-
-/* Métricas con diseño elevado */
+/* TARJETAS DE MÉTRICAS MODERNAS */
 [data-testid="metric-container"] {
-    background: var(--white) !important;
-    border: 1px solid var(--medium-gray) !important;
+    background: var(--background-secondary) !important;
+    border: 1px solid var(--border-color) !important;
     border-radius: 12px !important;
     padding: 1.5rem !important;
-    box-shadow: var(--shadow-sm) !important;
+    box-shadow: var(--shadow-light) !important;
     transition: all 0.2s ease !important;
     position: relative;
     overflow: hidden;
 }
 
 [data-testid="metric-container"]:hover {
-    box-shadow: var(--shadow-md) !important;
-    transform: translateY(-1px);
-    border-color: var(--primary-purple) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: var(--shadow-medium) !important;
+    border-color: var(--primary-color) !important;
 }
 
 [data-testid="metric-container"]::before {
@@ -623,17 +654,16 @@ h4 {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
+    right: 0;
     height: 3px;
-    background: linear-gradient(90deg, var(--primary-purple), var(--dark-purple));
+    background: var(--gradient-primary);
 }
 
 [data-testid="metric-container"] [data-testid="metric-value"] {
-    color: var(--primary-purple) !important;
+    color: var(--text-primary) !important;
     font-weight: 700 !important;
     font-size: 2rem !important;
-    line-height: 1;
-    margin-bottom: 0.25rem;
+    font-family: 'Inter', sans-serif !important;
 }
 
 [data-testid="metric-container"] [data-testid="metric-label"] {
@@ -644,200 +674,256 @@ h4 {
     letter-spacing: 0.05em;
 }
 
-/* Botones modernos y profesionales */
+/* BOTONES PROFESIONALES */
 .stButton > button {
-    background: var(--primary-purple) !important;
-    color: var(--white) !important;
+    background: var(--gradient-primary) !important;
+    color: white !important;
     border: none !important;
-    border-radius: 10px !important;
+    border-radius: 8px !important;
     font-weight: 600 !important;
-    font-family: 'Inter', sans-serif !important;
     font-size: 0.875rem !important;
     padding: 0.75rem 1.5rem !important;
-    box-shadow: var(--shadow-sm) !important;
     transition: all 0.2s ease !important;
-    text-transform: none !important;
-    letter-spacing: 0 !important;
+    box-shadow: var(--shadow-light) !important;
+    letter-spacing: 0.025em;
 }
 
 .stButton > button:hover {
-    background: var(--dark-purple) !important;
-    box-shadow: var(--shadow-md) !important;
-    transform: translateY(-1px);
+    transform: translateY(-1px) !important;
+    box-shadow: var(--shadow-medium) !important;
+    background: linear-gradient(135deg, #5855f7 0%, #7c3aed 100%) !important;
 }
 
 .stButton > button:active {
-    transform: translateY(0);
-    box-shadow: var(--shadow-sm) !important;
+    transform: translateY(0) !important;
 }
 
-/* Alertas y notificaciones */
-.stInfo, .stWarning, .stSuccess, .stError {
-    background-color: var(--white) !important;
-    color: var(--text-primary) !important;
-    border: 1px solid var(--medium-gray) !important;
-    border-left: 4px solid var(--primary-purple) !important;
-    border-radius: 8px !important;
-    box-shadow: var(--shadow-sm) !important;
-    padding: 1rem !important;
-}
-
-.stWarning {
-    border-left-color: #F59E0B !important;
-}
-
-.stSuccess {
-    border-left-color: #10B981 !important;
-}
-
-.stError {
-    border-left-color: #EF4444 !important;
-}
-
-/* Header y logo con protagonismo */
-.header-container {
-    background: var(--white);
-    padding: 2rem 0;
-    margin-bottom: 2rem;
-    border-bottom: 1px solid var(--medium-gray);
-    box-shadow: var(--shadow-sm);
-}
-
-.header-logo, .logo-container {
-    background: none !important;
-    box-shadow: none !important;
-    border: none !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 0;
-}
-
-.logo-container img, .header-logo img {
-    max-width: 280px !important;
-    height: auto !important;
-    margin: 0 auto !important;
-    display: block;
-    filter: drop-shadow(0 4px 6px rgba(107, 70, 193, 0.1));
-}
-
-/* Contenido principal */
-.main .markdown-text-container, .main p {
-    color: var(--text-primary) !important;
-    line-height: 1.6;
-}
-
-/* Tablas y dataframes */
-.stDataFrame, .stTable {
-    background: var(--white) !important;
-    color: var(--text-primary) !important;
-    border-radius: 12px !important;
-    border: 1px solid var(--medium-gray) !important;
-    box-shadow: var(--shadow-sm) !important;
-    overflow: hidden;
-}
-
-.stDataFrame th, .stTable th {
-    background: var(--light-gray) !important;
-    color: var(--text-primary) !important;
-    font-weight: 600 !important;
-    border-bottom: 2px solid var(--medium-gray) !important;
-}
-
-/* Contenedor principal */
-[data-testid="stAppViewContainer"] {
-    background: var(--light-gray) !important;
-}
-
-/* Líneas divisorias */
-hr, .stMarkdown hr {
-    border: none;
-    border-top: 1px solid var(--medium-gray);
-    margin: 3rem 0;
-}
-
-/* Scrollbar personalizado */
-::-webkit-scrollbar {
-    width: 6px;
-    background: var(--light-gray);
-}
-
-::-webkit-scrollbar-thumb {
-    background: var(--primary-purple);
-    border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: var(--dark-purple);
-}
-
-/* Tabs modernos */
+/* PESTAÑAS ELEGANTES */
 .stTabs [data-baseweb="tab-list"] {
     gap: 0.5rem;
-    background: var(--white);
-    padding: 0.25rem;
-    border-radius: 10px;
-    border: 1px solid var(--medium-gray);
-    box-shadow: var(--shadow-sm);
+    background: var(--background-secondary);
+    padding: 0.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-light);
 }
 
 .stTabs [data-baseweb="tab"] {
     background: transparent !important;
+    border: none !important;
     border-radius: 8px !important;
     color: var(--text-secondary) !important;
     font-weight: 500 !important;
     padding: 0.75rem 1.5rem !important;
-    border: none !important;
     transition: all 0.2s ease !important;
 }
 
+.stTabs [data-baseweb="tab"]:hover {
+    background: rgba(99, 102, 241, 0.1) !important;
+    color: var(--primary-color) !important;
+}
+
 .stTabs [aria-selected="true"] {
-    background: var(--primary-purple) !important;
-    color: var(--white) !important;
-    box-shadow: var(--shadow-sm) !important;
+    background: var(--gradient-primary) !important;
+    color: white !important;
+    box-shadow: var(--shadow-light) !important;
 }
 
-/* Selectboxes y inputs */
-.stSelectbox > div > div {
-    background: var(--white) !important;
-    border: 1px solid var(--medium-gray) !important;
+/* ALERTAS Y NOTIFICACIONES */
+.stSuccess {
+    background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%) !important;
+    border: 1px solid #22c55e !important;
     border-radius: 8px !important;
-    box-shadow: var(--shadow-sm) !important;
+    color: #15803d !important;
 }
 
-.stMultiSelect > div > div {
-    background: var(--white) !important;
-    border: 1px solid var(--medium-gray) !important;
+.stInfo {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%) !important;
+    border: 1px solid #3b82f6 !important;
     border-radius: 8px !important;
-    box-shadow: var(--shadow-sm) !important;
+    color: #1d4ed8 !important;
 }
 
-/* Cards y contenedores */
-.element-container {
-    background: var(--white);
+.stWarning {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%) !important;
+    border: 1px solid #f59e0b !important;
+    border-radius: 8px !important;
+    color: #d97706 !important;
+}
+
+.stError {
+    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%) !important;
+    border: 1px solid #ef4444 !important;
+    border-radius: 8px !important;
+    color: #dc2626 !important;
+}
+
+/* CONTENEDORES DE CONTENIDO */
+.content-card {
+    background: var(--background-secondary);
+    border: 1px solid var(--border-color);
     border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 1rem;
-    border: 1px solid var(--medium-gray);
-    box-shadow: var(--shadow-sm);
+    padding: 2rem;
+    margin: 1rem 0;
+    box-shadow: var(--shadow-light);
+    transition: all 0.2s ease;
 }
 
-/* Responsive adjustments */
+.content-card:hover {
+    box-shadow: var(--shadow-medium);
+}
+
+/* FORMULARIOS ELEGANTES */
+.stSelectbox > div > div,
+.stMultiSelect > div > div,
+.stDateInput > div > div,
+.stNumberInput > div > div,
+.stTextInput > div > div {
+    border: 1px solid var(--border-color) !important;
+    border-radius: 8px !important;
+    background: var(--background-secondary) !important;
+    transition: all 0.2s ease !important;
+}
+
+.stSelectbox > div > div:focus-within,
+.stMultiSelect > div > div:focus-within,
+.stDateInput > div > div:focus-within,
+.stNumberInput > div > div:focus-within,
+.stTextInput > div > div:focus-within {
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1) !important;
+}
+
+/* SLIDERS MODERNOS */
+.stSlider > div > div > div > div {
+    background: var(--gradient-primary) !important;
+}
+
+/* DATAFRAMES PROFESIONALES */
+.dataframe {
+    border: 1px solid var(--border-color) !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    box-shadow: var(--shadow-light) !important;
+}
+
+/* GRÁFICOS PLOTLY */
+.js-plotly-plot {
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    box-shadow: var(--shadow-light) !important;
+}
+
+/* EXPANDIBLES */
+.streamlit-expanderHeader {
+    background: var(--background-secondary) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+}
+
+/* SEPARADORES */
+hr {
+    border: none !important;
+    height: 1px !important;
+    background: linear-gradient(90deg, transparent, var(--border-color), transparent) !important;
+    margin: 2rem 0 !important;
+}
+
+/* EFECTOS DE HOVER GLOBALES */
+.element-container:hover .content-card {
+    transform: translateY(-1px);
+}
+
+/* RESPONSIVE */
 @media (max-width: 768px) {
-    h1 {
-        font-size: 1.875rem !important;
+    .brand-title {
+        font-size: 2rem;
+    }
+    
+    .header-container {
+        padding: 1rem;
+        margin: -1rem -1rem 1rem -1rem;
     }
     
     [data-testid="metric-container"] {
         padding: 1rem !important;
     }
-    
-    .logo-container img, .header-logo img {
-        max-width: 200px !important;
-    }
+}
+
+/* LOADING STATES */
+.stSpinner > div {
+    border-color: var(--primary-color) !important;
+}
+
+/* SCROLLBARS */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--background-primary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+}
+
+/* ANIMACIONES SUTILES */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.main > div {
+    animation: fadeIn 0.3s ease-out;
 }
 </style>
 """
+
+# Aplicar estilos
+st.markdown(page_bg, unsafe_allow_html=True)
+
+# --- CABECERA PROFESIONAL ---
+st.markdown("""
+<div class="header-container">
+    <div class="logo-section">
+""", unsafe_allow_html=True)
+
+if os.path.exists(LOGO_PATH):
+    col_logo_left, col_logo_center, col_logo_right = st.columns([1, 2, 1])
+    with col_logo_center:
+        st.image(LOGO_PATH, width=400)
+else:
+    st.markdown("""
+        <h1 class="brand-title">🔮 ORÁCULO</h1>
+        <p class="brand-subtitle"> Predice tu estrategia digital con datos inteligentes</p>
+    """, unsafe_allow_html=True)
+
+st.markdown("""
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+# --- DESCRIPCIÓN PRINCIPAL MODERNA ---
+st.markdown("""
+<div class="content-card">
+    <h2 style="margin-bottom: 1rem; color: var(--primary-color);">
+        🚀 Revoluciona tu estrategia en redes sociales
+    </h2>
+    <p style="font-size: 1.1rem; margin-bottom: 0;">
+        Oráculo combina <strong>inteligencia artificial</strong>, <strong>análisis predictivo</strong> y 
+        <strong>computer vision</strong> para optimizar tu presencia digital. Toma decisiones basadas en datos 
+        y maximiza el impacto de cada publicación.
+    </p>
+</div>
+""", unsafe_allow_html=True)
 
 # Aplicar estilos
 st.markdown(page_bg, unsafe_allow_html=True)
@@ -1273,7 +1359,7 @@ with col_logo_center:
         st.markdown("""
         <div style="text-align: center; margin: 2rem 0;">
             <h1 style="font-size: 3.5rem; color: #4a148c; margin: 0;">🔮 ORÁCULO</h1>
-            <p style="font-size: 1.3rem; color: #6a1b9a; margin: 0.5rem 0;">Predice tu estrategia digital</p>
+            <p style="font-size: 1.3rem; color: #6a1b9a; margin: 0.5rem 0;" Predice tu estrategia digital</p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -1292,17 +1378,9 @@ def cargar_datos():
     """
     Carga el dataset principal con fallback a datos demo
     """
-    import os
-    
-    # Obtener la ruta base del proyecto (un nivel arriba de App/)
-    current_dir = os.path.dirname(__file__)
-    base_dir = os.path.dirname(current_dir)
-    data_dir = os.path.join(base_dir, "Data")
-    
     try:
-        # Intentar cargar el dataset principal desde Data/
-        data_path = os.path.join(data_dir, "data_unificada.csv")
-        df_principal = pd.read_csv(data_path, sep=';')
+        # Intentar cargar el dataset principal
+        df_principal = pd.read_csv("/Users/n.arcos89/Desktop/Bootcamp_Data/DIVA_DIGITAL_Proyecto Final/Data/data_unificada.csv", sep=';')
         
         # Convertir fechas
         if 'Fecha' in df_principal.columns:
@@ -1316,9 +1394,8 @@ def cargar_datos():
     except FileNotFoundError:
         st.warning("⚠️ Dataset principal no encontrado, cargando datos demo...")
         try:
-            # Cargar datos demo como fallback desde Data/
-            demo_path = os.path.join(data_dir, "data_demo_ok.csv")
-            df_demo = pd.read_csv(demo_path)
+            # Cargar datos demo como fallback
+            df_demo = pd.read_csv("/Users/n.arcos89/Desktop/Bootcamp_Data/DIVA_DIGITAL_Proyecto Final/Data/data_demo_ok.csv")
             
             # Convertir fechas
             if 'Fecha' in df_demo.columns:
@@ -1330,7 +1407,7 @@ def cargar_datos():
             return df_demo, "demo"
             
         except FileNotFoundError:
-            st.error("❌ No se encontró ningún archivo de datos. Verifique que existan los archivos CSV en la carpeta Data/.")
+            st.error("❌ No se encontró ningún archivo de datos. Verifique que existan los archivos CSV.")
             return pd.DataFrame(), "none"
             
     except Exception as e:
@@ -1344,23 +1421,13 @@ df, tipo_datos = cargar_datos()
 @st.cache_data
 def cargar_datos_imagenes():
     """
-    Carga el CSV con los datos de las imágenes usando URLs públicas (Google Drive, GitHub, etc.)
+    Carga el CSV con los datos de las imágenes de Pixabay (versión limpia)
     """
-    import os
-    
-    # Obtener la ruta base del proyecto
-    current_dir = os.path.dirname(__file__)
-    base_dir = os.path.dirname(current_dir)
-    data_dir = os.path.join(base_dir, "Data")
-    
     try:
-        # Cargar el CSV de imágenes principal
-        csv_file = "publicaciones_pixabay_ok.csv"
-        csv_path = os.path.join(data_dir, csv_file)
+        csv_path = "/Users/n.arcos89/Desktop/Bootcamp_Data/DIVA_DIGITAL_Proyecto Final/Data/publicaciones_pixabay_ok.csv"
         
-        # Verificar si existe el archivo CSV
+        # Verificar si el archivo CSV existe
         if not os.path.exists(csv_path):
-            st.error(f"❌ No se encontró el archivo {csv_file} en la carpeta Data.")
             return pd.DataFrame()
         
         # Cargar CSV
@@ -1388,41 +1455,38 @@ def cargar_datos_imagenes():
         if 'Imagen' not in df_imagenes.columns:
             return pd.DataFrame()
         
-        # Verificar si hay una columna 'URL_Publica' en el CSV
-        if 'URL_Publica' in df_imagenes.columns:
-            # Caso ideal: URLs ya están en el CSV
-            # Usar directamente URL_Publica sin copiar a Ruta
-            df_imagenes['imagen_existe'] = True
-            df_imagenes['tipo_imagen'] = 'url_publica'
-            
-        elif 'Ruta' in df_imagenes.columns and df_imagenes['Ruta'].str.contains('http', na=False).any():
-            # Caso: URLs ya están en la columna Ruta (mantener compatibilidad)
-            df_imagenes['URL_Publica'] = df_imagenes['Ruta']  # Copiar a URL_Publica
-            df_imagenes['imagen_existe'] = True
-            df_imagenes['tipo_imagen'] = 'url_publica'
-            
-        else:
-            # Fallback: Generar URLs placeholder mientras preparas las URLs reales
-            def generar_url_placeholder(nombre_imagen):
-                try:
-                    numero = nombre_imagen.replace('IMG_', '').replace('.jpg', '').replace('.jpeg', '').replace('.png', '')
-                    numero_clean = int(numero) % 1000
-                    return f"https://picsum.photos/400/400?random={numero_clean}"
-                except:
-                    return f"https://picsum.photos/400/400?random=1"
-            
-            df_imagenes['URL_Publica'] = df_imagenes['Imagen'].apply(generar_url_placeholder)
-            df_imagenes['imagen_existe'] = True
-            df_imagenes['tipo_imagen'] = 'placeholder'
+        # Definir la ruta donde están las imágenes
+        ruta_base_imagenes = "/Users/n.arcos89/Desktop/Bootcamp_Data/DIVA_DIGITAL_Proyecto Final/Imagenes/imagenes_descargadas"
         
-        # Agregar información descriptiva
-        df_imagenes['descripcion'] = df_imagenes.apply(
-            lambda row: f"Imagen real: {row['Imagen']}" if row.get('tipo_imagen') == 'url_publica' 
-            else f"Placeholder para: {row['Imagen']}", axis=1
+        if not os.path.exists(ruta_base_imagenes):
+            return pd.DataFrame()
+        
+        # Obtener lista de archivos reales en el directorio
+        try:
+            archivos_reales = [f for f in os.listdir(ruta_base_imagenes) if f.lower().endswith(('.jpg', '.jpeg', '.png', '.gif'))]
+            archivos_reales.sort()
+        except Exception as e:
+            return pd.DataFrame()
+        
+        if len(archivos_reales) == 0:
+            return pd.DataFrame()
+        
+        # Construir rutas
+        def construir_ruta(nombre_imagen):
+            if nombre_imagen and not pd.isna(nombre_imagen):
+                return os.path.join(ruta_base_imagenes, nombre_imagen)
+            return None
+        
+        df_imagenes['Ruta'] = df_imagenes['Imagen'].apply(construir_ruta)
+        
+        # Verificar qué imágenes existen realmente
+        df_imagenes['imagen_existe'] = df_imagenes['Ruta'].apply(
+            lambda x: os.path.exists(x) if x is not None else False
         )
         
-        # Filtrar datos válidos
-        df_imagenes_validas = df_imagenes.dropna(subset=['Imagen', 'Fecha'])
+        # Filtrar solo las imágenes que existen
+        df_imagenes_validas = df_imagenes[df_imagenes['imagen_existe']].copy()
+        df_imagenes_validas = df_imagenes_validas.dropna(subset=['Imagen', 'Ruta', 'Fecha'])
         
         return df_imagenes_validas
         
@@ -1433,12 +1497,9 @@ def cargar_datos_imagenes():
 df_imagenes = cargar_datos_imagenes()
 
 # --- SIDEBAR: LOGO, FILTROS Y RESUMEN ---
-# Logo en el sidebar (centrado)
-if LOGO_PATH and os.path.exists(LOGO_PATH):
-    # Use three columns inside the sidebar to center the image
-    c1, c2, c3 = st.sidebar.columns([1, 2, 1])
-    with c2:
-        st.image(LOGO_PATH, width=150, use_container_width=False)
+# Logo en el sidebar
+if os.path.exists(LOGO_PATH):
+    st.sidebar.image(LOGO_PATH, width=150, use_container_width=False)
 else:
     st.sidebar.markdown("""
     <div style='text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.1); border-radius: 15px; margin-bottom: 1rem;'>
@@ -1447,8 +1508,8 @@ else:
     </div>
     """, unsafe_allow_html=True)
 
-st.sidebar.markdown("<h3 style='color: var(--text-primary); text-align: center;'>📊 Panel de Control</h3>", unsafe_allow_html=True)
-st.sidebar.markdown("<p style='color: var(--text-primary); text-align: center;'>Precide tu estrategia digital con datos 💫</p>", unsafe_allow_html=True)
+st.sidebar.markdown("<h3 style='color:#fff; text-align: center;'>📊 Panel de Control</h3>", unsafe_allow_html=True)
+st.sidebar.markdown("<p style='color:#fff; text-align: center;'>Empodera tu estrategia digital con datos 💫</p>", unsafe_allow_html=True)
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("### 🔎 Filtra tus datos")
@@ -1597,17 +1658,16 @@ modelo_temporal, le_formato_temporal = crear_modelo_temporal_visual(df)
 # --- APP STREAMLIT ---
 st.title("✨ Oráculo: Análisis de Redes Sociales para Marcas")
 
-# Navegación principal: usar radio en sidebar para mantener la página tras reruns
-nav = st.sidebar.radio("Navegación", ["📊 Informe", "🔮 Modelo Predictivo", "🚀 Next Steps"], index=0, key="main_nav")
+tab1, tab2, tab3 = st.tabs(["📊 Informe", "🔮 Modelo Predictivo", "🚀 Next Steps"])
 
 # --- TAB 1: INFORME ---
-if nav == "📊 Informe":
+with tab1:
     st.header("📊 Informe Interanual")
     if df_filtrado.empty:
         st.error("No hay datos para mostrar el informe")
     else:
         subtab1, subtab2, subtab3, subtab4, subtab5, subtab6, subtab7 = st.tabs([
-            "📈 Resumen", "🖼️ Imágenes", "👁️ Visibilidad", "🔮 Interacción", "▶️ Reproducciones", "🛒 Conversión", "💰 Retorno"
+            "📈 Resumen", "🖼️ Imágenes", "👁️ Visibilidad", "❤️ Interacción", "▶️ Reproducciones", "🛒 Conversión", "💰 Retorno"
         ])
         
         with subtab1:
@@ -1631,11 +1691,6 @@ if nav == "📊 Informe":
                                 color_discrete_sequence=px.colors.sequential.Purples)
                     fig1.update_layout(paper_bgcolor='rgba(255,255,255,0.9)', font_color='#4a148c')
                     st.plotly_chart(fig1, use_container_width=True)
-                    
-                    # Insight específico
-                    canal_principal = posts_por_canal.iloc[0]['Canal']
-                    porcentaje_principal = (posts_por_canal.iloc[0]['Número de Posts'] / posts_por_canal['Número de Posts'].sum() * 100)
-                    st.info(f"💡 **{canal_principal}** representa el {porcentaje_principal:.0f}% de tu actividad. {'¿Diversificar podría ampliar tu audiencia?' if porcentaje_principal > 70 else 'Buena distribución entre canales.'}")
             
             with col2:
                 if 'Formato' in df_filtrado.columns:
@@ -1647,19 +1702,6 @@ if nav == "📊 Informe":
                                 color_continuous_scale='Pinkyl')
                     fig2.update_layout(paper_bgcolor='rgba(255,255,255,0.9)', font_color='#4a148c')
                     st.plotly_chart(fig2, use_container_width=True)
-                    
-                    # Insight específico
-                    formato_dominante = posts_por_formato.iloc[0]['Formato']
-                    if 'Reel' in posts_por_formato['Formato'].values:
-                        reels_count = posts_por_formato[posts_por_formato['Formato'] == 'Reel']['Número de Posts'].iloc[0] if not posts_por_formato[posts_por_formato['Formato'] == 'Reel'].empty else 0
-                        total_posts = posts_por_formato['Número de Posts'].sum()
-                        reel_percentage = (reels_count / total_posts * 100) if total_posts > 0 else 0
-                        if reel_percentage < 30:
-                            st.warning(f"⚡ **Oportunidad**: Solo {reel_percentage:.0f}% son Reels. Aumentar este formato puede duplicar tu alcance.")
-                        else:
-                            st.success(f"✅ **Buen equilibrio**: {reel_percentage:.0f}% de Reels. Mantén esta estrategia.")
-                    else:
-                        st.error("🚨 **Urgente**: ¡No tienes Reels! Este formato genera 3x más alcance que imágenes.")
             
             if 'Fecha' in df_filtrado.columns:
                 st.markdown("### 📅 Tendencias Temporales")
@@ -1674,14 +1716,6 @@ if nav == "📊 Informe":
                                 markers=True, color_discrete_sequence=['#e91e63'])
                     fig5.update_layout(paper_bgcolor='rgba(255,255,255,0.9)', font_color='#4a148c')
                     st.plotly_chart(fig5, use_container_width=True)
-                    
-                    # Insight de consistencia
-                    variabilidad = posts_por_mes['Número de Posts'].std()
-                    promedio = posts_por_mes['Número de Posts'].mean()
-                    if variabilidad/promedio > 0.5:
-                        st.warning(f"📊 **Inconsistencia detectada**: Tu frecuencia varía mucho mes a mes. La consistencia aumenta el engagement en un 23%.")
-                    else:
-                        st.success(f"✅ **Consistencia sólida**: Mantienes un ritmo estable de {promedio:.0f} posts/mes. ¡Excelente para el algoritmo!")
                 
                 with col6:
                     if 'Alcance' in df_filtrado.columns and 'Interacciones' in df_filtrado.columns:
@@ -1695,16 +1729,6 @@ if nav == "📊 Informe":
                                     markers=True, color_discrete_sequence=['#8e24aa'])
                         fig6.update_layout(paper_bgcolor='rgba(255,255,255,0.9)', font_color='#4a148c')
                         st.plotly_chart(fig6, use_container_width=True)
-                        
-                        # Insight de tendencia de engagement
-                        if len(engagement_mes) >= 2:
-                            tendencia = engagement_mes['Engagement'].iloc[-1] - engagement_mes['Engagement'].iloc[0]
-                            if tendencia > 0.5:
-                                st.success(f"🚀 **Tendencia positiva**: Tu engagement ha mejorado {tendencia:.1f}%. ¡Vas por buen camino!")
-                            elif tendencia < -0.5:
-                                st.error(f"📉 **Alerta**: Tu engagement ha bajado {abs(tendencia):.1f}%. Necesitas revisar tu estrategia de contenido.")
-                            else:
-                                st.info(f"📊 **Engagement estable**: Se mantiene en {engagement_mes['Engagement'].mean():.1f}%. Considera probar nuevos formatos para mejorarlo.")
 
         with subtab2:
             st.subheader("🖼️ Análisis de Imágenes")
@@ -1752,7 +1776,7 @@ if nav == "📊 Informe":
                         resultado = {
                             'Imagen': img_row['Imagen'],
                             'Fecha': img_row['Fecha'],
-                            'URL_Publica': img_row['URL_Publica'],
+                            'Ruta': img_row['Ruta'],
                             'Alcance': best_match.get('Alcance', 0),
                             'Interacciones': best_match.get('Interacciones', 0),
                             'Compras': best_match.get('Compras', 0),
@@ -1797,14 +1821,13 @@ if nav == "📊 Informe":
                     
                     for idx, row in df_imgs.iterrows():
                         try:
-                            # Verificar si tenemos URL_Publica válida
-                            if pd.notna(row['URL_Publica']) and str(row['URL_Publica']).strip():
-                                analisis = analizar_imagen_completo(row['URL_Publica'])
+                            if os.path.exists(row['Ruta']):
+                                analisis = analizar_imagen_completo(row['Ruta'])
                                 if analisis['exito']:
                                     resultado = {
                                         'Imagen': row['Imagen'],
                                         'Fecha': row['Fecha'],
-                                        'URL_Publica': row['URL_Publica'],
+                                        'Ruta': row['Ruta'],
                                         'tematica': analisis['tematica_predicha'],
                                         'engagement_score': analisis['engagement_score'],
                                         'colores_dominantes': analisis['colores_dominantes'],
@@ -1856,14 +1879,13 @@ if nav == "📊 Informe":
                     
                     for idx, row in df_imgs_metricas.iterrows():
                         try:
-                            # Verificar si tenemos URL_Publica válida
-                            if pd.notna(row['URL_Publica']) and str(row['URL_Publica']).strip():
-                                analisis = analizar_imagen_completo(row['URL_Publica'])
+                            if os.path.exists(row['Ruta']):
+                                analisis = analizar_imagen_completo(row['Ruta'])
                                 if analisis['exito']:
                                     resultado = {
                                         'Imagen': row['Imagen'],
                                         'Fecha': row['Fecha'],
-                                        'URL_Publica': row['URL_Publica'],
+                                        'Ruta': row['Ruta'],
                                         'tematica': analisis['tematica_predicha'],
                                         'engagement_score': analisis['engagement_score'],
                                         'colores_dominantes': analisis['colores_dominantes'],
@@ -2001,7 +2023,7 @@ if nav == "📊 Informe":
                         if 'Alcance' in metricas_disponibles:
                             tabs_nombres.append("👁️ Top Visibilidad")
                         if 'Interacciones' in metricas_disponibles:
-                            tabs_nombres.append("🔮 Top Interacción")
+                            tabs_nombres.append("❤️ Top Interacción")
                         if 'Valor_compra' in metricas_disponibles:
                             tabs_nombres.append("🛒 Top Ventas")
                         
@@ -2020,7 +2042,7 @@ if nav == "📊 Informe":
                                     with cols[j]:
                                         try:
                                             # Mostrar imagen
-                                            st.image(row['URL_Publica'], 
+                                            st.image(row['Ruta'], 
                                                     caption=f"#{i+j+1} - {row['Imagen']}", 
                                                     use_container_width=True)
                                             
@@ -2066,7 +2088,7 @@ if nav == "📊 Informe":
                         
                         if 'Interacciones' in metricas_disponibles:
                             with tabs_metricas[tab_index]:
-                                crear_ranking_tabla(df_analisis, 'Interacciones', "Imágenes con Mayor Interacción", "🔮")
+                                crear_ranking_tabla(df_analisis, 'Interacciones', "Imágenes con Mayor Interacción", "❤️")
                             tab_index += 1
                         
                         if 'Valor_compra' in metricas_disponibles:
@@ -2193,10 +2215,6 @@ if nav == "📊 Informe":
                         )
                         
                         st.plotly_chart(fig1, use_container_width=True)
-                        
-                        # Insight del alcance por formato
-                        mejor_formato = alcance_formato.loc[alcance_formato['Alcance_Total'].idxmax()]
-                        st.info(f"💡 **Insight**: {mejor_formato['Formato']} es tu formato más efectivo con {mejor_formato['Alcance_Total']:,.0f} de alcance total. Enfócate en crear más contenido de este tipo para maximizar tu visibilidad.")
                 
                 with col_graf2:
                     # NUEVA GRÁFICA 2: Evolución del Alcance por Fechas
@@ -2251,12 +2269,6 @@ if nav == "📊 Informe":
                         )
                         
                         st.plotly_chart(fig2, use_container_width=True)
-                        
-                        # Insight de la evolución temporal
-                        if len(alcance_tiempo) > 1:
-                            tendencia = "ascendente" if alcance_tiempo['Alcance'].iloc[-1] > alcance_tiempo['Alcance'].iloc[0] else "descendente"
-                            mejor_semana = alcance_tiempo.loc[alcance_tiempo['Alcance'].idxmax()]
-                            st.success(f"📈 **Tendencia {tendencia}**: Tu mejor semana fue {mejor_semana['Semana'].strftime('%d/%m')} con {mejor_semana['Alcance']:,.0f} de alcance. Analiza qué publicaste esa semana para replicar el éxito.")
                 
                 # NUEVA GRÁFICA 3: Top 10 Posts con Mayor Alcance
                 st.markdown("---")
@@ -2312,11 +2324,6 @@ if nav == "📊 Informe":
                     fig3.update_yaxes(tickfont=dict(size=10))
                     st.plotly_chart(fig3, use_container_width=True)
                     
-                    # Insight del top 10 posts
-                    promedio_alcance = df_filtrado['Alcance'].mean()
-                    factor_exito = top_10_posts.iloc[0]['Alcance'] / promedio_alcance if promedio_alcance > 0 else 0
-                    st.warning(f"🏆 **Estrategia ganadora**: Tu post más exitoso alcanzó {factor_exito:.1f}x más que el promedio. Estudia los elementos comunes de tus top posts para crear contenido viral consistente.")
-                    
                     # Tabla del Top 5 (versión compacta)
                     st.markdown("##### 📋 Top 5 Detallado")
                     tabla_top5 = top_10_posts.head(5).copy()
@@ -2350,7 +2357,7 @@ if nav == "📊 Informe":
                 st.warning("⚠️ No se encontró columna de alcance")
 
         with subtab4:
-            st.subheader("🔮 Interacción")
+            st.subheader("❤️ Interacción")
             
             if 'Interacciones' in df_filtrado.columns:
                 # Métricas principales 
@@ -2415,11 +2422,6 @@ if nav == "📊 Informe":
                         )
                         
                         st.plotly_chart(fig1, use_container_width=True)
-                        
-                        # Insight de interacciones por formato
-                        mejor_formato_int = interaccion_formato.loc[interaccion_formato['Interacciones_Total'].idxmax()]
-                        engagement_rate = (mejor_formato_int['Interacciones_Total'] / interaccion_formato['Interacciones_Total'].sum()) * 100
-                        st.info(f"💡 **Engagement Winner**: {mejor_formato_int['Formato']} genera {engagement_rate:.1f}% de todas tus interacciones. Incrementa la producción de este formato para maximizar el engagement.")
                 
                 with col_graf2:
                     # NUEVA GRÁFICA 2: Evolución de Interacciones por Fechas
@@ -2474,12 +2476,6 @@ if nav == "📊 Informe":
                         )
                         
                         st.plotly_chart(fig2, use_container_width=True)
-                        
-                        # Insight de la evolución temporal de interacciones
-                        if len(interaccion_tiempo) > 1:
-                            variacion = ((interaccion_tiempo['Interacciones'].iloc[-1] - interaccion_tiempo['Interacciones'].iloc[0]) / interaccion_tiempo['Interacciones'].iloc[0]) * 100 if interaccion_tiempo['Interacciones'].iloc[0] > 0 else 0
-                            mejor_semana_int = interaccion_tiempo.loc[interaccion_tiempo['Interacciones'].idxmax()]
-                            st.success(f"💬 **Tendencia de engagement**: Variación de {variacion:+.1f}% en el período. Tu pico fue {mejor_semana_int['Semana'].strftime('%d/%m')} con {mejor_semana_int['Interacciones']:,.0f} interacciones. Replica esa estrategia.")
                 
                 # NUEVA GRÁFICA 3: Top 10 Posts con Mayor Interacción
                 st.markdown("---")
@@ -2686,11 +2682,6 @@ if nav == "📊 Informe":
                             font_color='#4a148c'
                         )
                         st.plotly_chart(fig_total, use_container_width=True)
-                        
-                        # Insight de reproducciones por canal
-                        canal_dominante_repro = reproducciones_canal.loc[reproducciones_canal['Total_Reproducciones'].idxmax()]
-                        share_reproducciones = (canal_dominante_repro['Total_Reproducciones'] / reproducciones_canal['Total_Reproducciones'].sum()) * 100
-                        st.info(f"🎬 **Líder en video**: {canal_dominante_repro['Canal']} acumula {share_reproducciones:.1f}% de todas tus reproducciones. Este canal tiene mayor potencial para contenido viral.")
                     
                     #ANÁLISIS DETALLADOS
                     st.markdown("---")
@@ -2748,12 +2739,7 @@ if nav == "📊 Informe":
                                 # Correlación
                                 correlacion_dur = df_duracion['Duracion_video'].corr(df_duracion['Reproducciones'])
                                 interpretacion_dur = "Fuerte" if abs(correlacion_dur) > 0.7 else "Moderada" if abs(correlacion_dur) > 0.3 else "Débil"
-                                if correlacion_dur > 0:
-                                    st.success(f"⏱️ **Duración óptima**: Correlación {interpretacion_dur} positiva (r={correlacion_dur:.3f}). Videos más largos tienden a tener más reproducciones en tu audiencia.")
-                                elif correlacion_dur < -0.3:
-                                    st.warning(f"⚡ **Menos es más**: Correlación {interpretacion_dur} negativa (r={correlacion_dur:.3f}). Tu audiencia prefiere videos más cortos y directos.")
-                                else:
-                                    st.info(f"📊 **Duración flexible**: Correlación {interpretacion_dur} (r={correlacion_dur:.3f}). La duración no es determinante, enfócate en el contenido.")
+                                st.info(f"📊 Correlación duración-reproducciones: **{interpretacion_dur}** (r={correlacion_dur:.3f})")
                     
                     with col_video2:
                         # NUEVA GRÁFICA 2: Reproducciones vs Tiempo de Retención
@@ -2804,10 +2790,7 @@ if nav == "📊 Informe":
                                 # Correlación
                                 correlacion_ret = df_retencion['Retencion'].corr(df_retencion['Reproducciones'])
                                 interpretacion_ret = "Fuerte" if abs(correlacion_ret) > 0.7 else "Moderada" if abs(correlacion_ret) > 0.3 else "Débil"
-                                if correlacion_ret > 0.3:
-                                    st.success(f"🎯 **Retención = Éxito**: Correlación {interpretacion_ret} (r={correlacion_ret:.3f}). Mayor retención se traduce directamente en más reproducciones. Optimiza los primeros 3 segundos.")
-                                else:
-                                    st.info(f"📊 **Factor variable**: Correlación {interpretacion_ret} (r={correlacion_ret:.3f}). La retención no siempre predice reproducciones, analiza otros factores como hashtags y timing.")
+                                st.info(f"📊 Correlación retención-reproducciones: **{interpretacion_ret}** (r={correlacion_ret:.3f})")
                     
                     # NUEVA GRÁFICA 3: Visibilidad e Interacción vs Duración
                     if 'Duracion_video' in df_reels_clean.columns and 'Alcance' in df_reels_clean.columns and 'Interacciones' in df_reels_clean.columns:
@@ -2915,7 +2898,7 @@ if nav == "📊 Informe":
                                                 <p><strong>🎯 Engagement:</strong> {video['Engagement_Rate']:.2f}%</p>
                                                 <p><strong>▶️ Reproducciones:</strong> {video['Reproducciones']:,.0f}</p>
                                                 <p><strong>👁️ Alcance:</strong> {video['Alcance']:,.0f}</p>
-                                                <p><strong>🔮 Interacciones:</strong> {video['Interacciones']:,.0f}</p>
+                                                <p><strong>❤️ Interacciones:</strong> {video['Interacciones']:,.0f}</p>
                                                 <p><strong>📱 Canal:</strong> {video['Canal']}</p>
                                                 <p><strong>📅 Fecha:</strong> {video['Fecha'].strftime('%d/%m/%Y')}</p>
                                             </div>
@@ -2958,7 +2941,7 @@ if nav == "📊 Informe":
                             tabla_display = tabla_top10[columnas_finales].copy()
                             
                             # Renombrar columnas
-                            nombres_columnas = ['🏅 Rank', '🎬 Video', '🎯 Engagement', '▶️ Reproducciones', '👁️ Alcance', '🔮 Interacciones', '📱 Canal', '📅 Fecha']
+                            nombres_columnas = ['🏅 Rank', '🎬 Video', '🎯 Engagement', '▶️ Reproducciones', '👁️ Alcance', '❤️ Interacciones', '📱 Canal', '📅 Fecha']
                             
                             if 'Duracion_video' in columnas_finales:
                                 nombres_columnas.append('⏱️ Duración')
@@ -3044,11 +3027,6 @@ if nav == "📊 Informe":
                                         color='Total_Compras', color_continuous_scale='Greens')
                         fig_compras.update_layout(paper_bgcolor='rgba(255,255,255,0.9)', font_color='#4a148c')
                         st.plotly_chart(fig_compras, use_container_width=True)
-                        
-                        # Insight de compras por canal
-                        canal_top_ventas = conversion_canal.loc[conversion_canal['Total_Compras'].idxmax()]
-                        revenue_share = (canal_top_ventas['Total_Compras'] / conversion_canal['Total_Compras'].sum()) * 100
-                        st.success(f"💰 **Canal estrella**: {canal_top_ventas['Canal']} genera {revenue_share:.1f}% de tus ventas totales. Es tu motor de conversión principal.")
                     
                     with col_conv2:
                         fig_tasa = px.bar(conversion_canal, x='Canal', y='Tasa_Conversion',
@@ -3056,11 +3034,6 @@ if nav == "📊 Informe":
                                         color='Tasa_Conversion', color_continuous_scale='Blues')
                         fig_tasa.update_layout(paper_bgcolor='rgba(255,255,255,0.9)', font_color='#4a148c')
                         st.plotly_chart(fig_tasa, use_container_width=True)
-                        
-                        # Insight de tasa de conversión
-                        canal_mejor_tasa = conversion_canal.loc[conversion_canal['Tasa_Conversion'].idxmax()]
-                        if canal_mejor_tasa['Tasa_Conversion'] > 0:
-                            st.info(f"🎯 **Eficiencia máxima**: {canal_mejor_tasa['Canal']} tiene la mejor tasa de conversión ({canal_mejor_tasa['Tasa_Conversion']:.3f}%). Replica esta estrategia en otros canales.")
                 
                 # NUEVOS GRÁFICOS POR FORMATO
                 st.markdown("---")
@@ -3108,11 +3081,6 @@ if nav == "📊 Informe":
                         )
                         
                         st.plotly_chart(fig_ventas_formato, use_container_width=True)
-                        
-                        # Insight de ventas por formato
-                        formato_top_ventas = conversion_formato.loc[conversion_formato['Total_Compras'].idxmax()]
-                        formato_share = (formato_top_ventas['Total_Compras'] / conversion_formato['Total_Compras'].sum()) * 100
-                        st.success(f"🎨 **Formato ganador**: {formato_top_ventas['Formato']} domina con {formato_share:.1f}% de tus ventas. Prioriza este tipo de contenido para maximizar ingresos.")
                     
                     with col_formato2:
                         st.markdown("#### 💯 Conversión por Formato de Contenido")
@@ -3146,11 +3114,6 @@ if nav == "📊 Informe":
                         )
                         
                         st.plotly_chart(fig_conversion_formato, use_container_width=True)
-                        
-                        # Insight de conversión por formato
-                        formato_mejor_conversion = conversion_formato.loc[conversion_formato['Tasa_Conversion'].idxmax()]
-                        if formato_mejor_conversion['Tasa_Conversion'] > 0:
-                            st.warning(f"🎯 **Conversión eficiente**: {formato_mejor_conversion['Formato']} convierte al {formato_mejor_conversion['Tasa_Conversion']:.3f}%. Aunque no sea el que más vende, es el más eficiente por alcance.")
                     
                     # Tabla resumen por formato
                     st.markdown("##### 📋 Resumen por Formato")
@@ -3333,7 +3296,7 @@ if nav == "📊 Informe":
                         if 'Interacciones' in tabla_ventas.columns:
                             tabla_ventas['Interacciones_Formateado'] = tabla_ventas['Interacciones'].apply(lambda x: f"{x:,.0f}")
                             columnas_finales.append('Interacciones_Formateado')
-                            nombres_columnas.append('🔮 Interacciones')
+                            nombres_columnas.append('❤️ Interacciones')
                         
                         if 'Valor_compra' in tabla_ventas.columns:
                             tabla_ventas['Valor_Formateado'] = tabla_ventas['Valor_compra'].apply(lambda x: f"{x:,.2f}€")
@@ -3475,15 +3438,6 @@ if nav == "📊 Informe":
                         )
                         
                         st.plotly_chart(fig_beneficio, use_container_width=True)
-                        
-                        # Insight de beneficio por canal
-                        canal_max_beneficio = roi_canal.loc[roi_canal['Beneficio'].idxmax()]
-                        canales_rentables = roi_canal[roi_canal['Beneficio'] > 0].shape[0]
-                        total_canales = len(roi_canal)
-                        if canal_max_beneficio['Beneficio'] > 0:
-                            st.success(f"💰 **Canal más rentable**: {canal_max_beneficio['Canal']} genera {canal_max_beneficio['Beneficio']:,.0f}€ de beneficio. {canales_rentables}/{total_canales} canales son rentables.")
-                        else:
-                            st.warning(f"⚠️ **Atención**: Ningún canal genera beneficio positivo. Revisa la estrategia de inversión y optimiza el presupuesto.")
                     
                     with col_roi2:
                         # GRÁFICO ROI por Canal con colores dinámicos
@@ -3515,14 +3469,6 @@ if nav == "📊 Informe":
                         )
                         
                         st.plotly_chart(fig_roi, use_container_width=True)
-                        
-                        # Insight de ROI por canal
-                        canal_mejor_roi = roi_canal.loc[roi_canal['ROI'].idxmax()]
-                        roi_promedio = roi_canal['ROI'].mean()
-                        if canal_mejor_roi['ROI'] > 0:
-                            st.info(f"📊 **ROI líder**: {canal_mejor_roi['Canal']} alcanza {canal_mejor_roi['ROI']:.1f}% ROI (promedio: {roi_promedio:.1f}%). Incrementa inversión en este canal para maximizar retornos.")
-                        else:
-                            st.error(f"🔴 **Crisis de ROI**: Todos los canales tienen ROI negativo (promedio: {roi_promedio:.1f}%). Pausa inversiones y reevalúa la estrategia completa.")
                     
                     # NUEVA GRÁFICA: Evolución Temporal del ROI
                     st.markdown("---")
@@ -3613,20 +3559,6 @@ if nav == "📊 Informe":
                         )
                         
                         st.plotly_chart(fig_evolution, use_container_width=True)
-                        
-                        # Insight de evolución temporal
-                        if len(roi_temporal) > 1:
-                            roi_inicial = roi_temporal['ROI_Acumulado'].iloc[0]
-                            roi_final = roi_temporal['ROI_Acumulado'].iloc[-1]
-                            mejores_meses = roi_temporal[roi_temporal['ROI'] > 0].shape[0]
-                            total_meses = len(roi_temporal)
-                            
-                            if roi_final > roi_inicial:
-                                st.success(f"📈 **Mejora continua**: Tu ROI acumulado pasó de {roi_inicial:.1f}% a {roi_final:.1f}%. {mejores_meses}/{total_meses} meses fueron rentables. ¡La estrategia está funcionando!")
-                            elif roi_final < 0:
-                                st.warning(f"🔻 **Revisa estrategia**: ROI acumulado actual: {roi_final:.1f}%. Solo {mejores_meses}/{total_meses} meses fueron rentables. Necesitas optimizar urgentemente.")
-                            else:
-                                st.info(f"📊 **Estabilidad**: ROI se mantiene en {roi_final:.1f}%. {mejores_meses}/{total_meses} meses rentables. Busca oportunidades de crecimiento.")
                         
                         # Análisis de tendencias
                         col_trend1, col_trend2, col_trend3 = st.columns(3)
@@ -3725,7 +3657,7 @@ if nav == "📊 Informe":
                 st.info("💡 Asegúrate de que tu dataset contenga las columnas 'Valor_compra' e 'Inversion' para ver este análisis")
 
 # --- TAB 2: MODELO PREDICTIVO ---
-elif nav == "🔮 Modelo Predictivo":
+with tab2:
     st.header("🔮 Modelo Predictivo")
     
     if not models_ok:
@@ -3786,7 +3718,7 @@ elif nav == "🔮 Modelo Predictivo":
                     st.success(f"🎯 **Alcance Predicho: {resultado['alcance']:,.0f} personas**")
                     
                     col_metric1, col_metric2 = st.columns(2)
-                    col_metric1.metric("🔮 Interacciones Estimadas", f"{resultado['engagement']:,.0f}")
+                    col_metric1.metric("❤️ Interacciones Estimadas", f"{resultado['engagement']:,.0f}")
                     col_metric2.metric("💰 Costo por Alcance", f"{resultado['costo_por_alcance']:.4f}€")
                     
                     # Mostrar configuración usada
@@ -3888,14 +3820,6 @@ elif nav == "🔮 Modelo Predictivo":
                 st.markdown("### 🖼️ Galería de Imágenes Disponibles")
                 
                 if not df_imagenes.empty:
-                    # Verificar si son imágenes reales o placeholder
-                    tipo_imagenes = df_imagenes['tipo_imagen'].iloc[0] if 'tipo_imagen' in df_imagenes.columns else 'placeholder'
-                    
-                    if tipo_imagenes == 'url_publica':
-                        st.success("✅ **Imágenes Reales**: Analizando tus imágenes reales desde URLs públicas")
-                    else:
-                        st.info("📷 **Modo Demostración**: Estas son imágenes placeholder. Para analizar tus imágenes reales, sube el CSV con la columna 'URL_Publica'")
-                    
                     # Selector de fecha para filtrar imágenes
                     col_fecha1, col_fecha2 = st.columns(2)
                     
@@ -3915,23 +3839,22 @@ elif nav == "🔮 Modelo Predictivo":
                             imagen_seleccionada = st.selectbox("🖼️ Selecciona una imagen", 
                                                             imagenes_fecha['Imagen'].tolist())
                         
-                        # Obtener la URL de la imagen seleccionada
-                        url_imagen = imagenes_fecha[imagenes_fecha['Imagen'] == imagen_seleccionada]['URL_Publica'].iloc[0]
+                        # Obtener la ruta de la imagen seleccionada
+                        ruta_imagen = imagenes_fecha[imagenes_fecha['Imagen'] == imagen_seleccionada]['Ruta'].iloc[0]
                         
                         col_gal1, col_gal2 = st.columns([1, 1])
                         
                         with col_gal1:
                             try:
-                                st.image(url_imagen, caption=f"Imagen demo: {imagen_seleccionada}", use_container_width=True)
+                                st.image(ruta_imagen, caption=f"Imagen: {imagen_seleccionada}", use_container_width=True)
                             except Exception as e:
                                 st.error(f"Error cargando imagen: {str(e)}")
-                                st.info("💡 **Consejo**: Para análisis real, usa la pestaña 'Subir Imagen' o 'URL de Imagen'")
                         
                         with col_gal2:
                             if st.button("🔍 Analizar Imagen Seleccionada", type="primary"):
                                 with st.spinner("Analizando imagen..."):
                                     try:
-                                        resultado = analizar_imagen_completo(url_imagen)
+                                        resultado = analizar_imagen_completo(ruta_imagen)
                                         
                                         if resultado['exito']:
                                             st.success("✅ Análisis completado")
@@ -3970,19 +3893,11 @@ elif nav == "🔮 Modelo Predictivo":
                                         else:
                                             st.error(f"❌ Error en el análisis: {resultado['error']}")
                                     except Exception as e:
-                                        st.error(f"❌ Error procesando imagen: {str(e)}")
-                                        st.info("💡 **Alternativa**: Prueba subiendo tu propia imagen o usando una URL directa")
+                                        st.error(f"❌ Error analizando imagen: {str(e)}")
                     else:
-                        st.warning(f"No hay imágenes disponibles para la fecha {fecha_seleccionada}")
-                        st.info("📅 Prueba seleccionando otra fecha del calendario")
+                        st.info(f"No hay imágenes disponibles para la fecha {fecha_seleccionada}")
                 else:
                     st.warning("⚠️ No hay imágenes disponibles en la galería")
-                    st.info("💡 **Alternativas para análisis de imágenes:**")
-                    st.markdown("""
-                    - 📤 **Subir Imagen**: Usa la primera pestaña para subir tu propia imagen
-                    - 🔗 **URL de Imagen**: Usa la tercera pestaña para analizar imágenes desde internet
-                    - 🎯 **Funcionalidad completa**: El análisis visual funciona perfectamente con imágenes reales
-                    """)
             
             with img_tab3:
                 st.markdown("### 🔗 Analizar imagen desde URL")
@@ -4256,7 +4171,7 @@ elif nav == "🔮 Modelo Predictivo":
                                 
                                 with col_pred2:
                                     engagement_estimado = int(alcance_predicho * 0.035)
-                                    st.metric("🔮 Engagement Estimado", f"{engagement_estimado:,}")
+                                    st.metric("❤️ Engagement Estimado", f"{engagement_estimado:,}")
                                 
                             except Exception as e:
                                 st.info("💡 Para predicciones más precisas, asegúrate de que todos los modelos estén disponibles")
@@ -4270,49 +4185,37 @@ elif nav == "🔮 Modelo Predictivo":
             st.markdown("**Genera un calendario optimizado de publicaciones basado en tus datos históricos y modelos predictivos.**")
             
             if modelo_temporal is not None and le_formato_temporal is not None and models_ok:
-                # Configuración del Plan (ahora en una sola columna)
-                st.markdown("### ⚙️ Configuración del Plan")
+                col_plan1, col_plan2 = st.columns([1, 2])
                 
-                # Configuración básica en una fila
-                col_config1, col_config2, col_config3 = st.columns(3)
-                
-                with col_config1:
+                with col_plan1:
+                    st.markdown("### ⚙️ Configuración del Plan")
+                    
+                    # Configuración básica
                     canal_planificacion = st.selectbox("📱 Canal Principal", canales_disponibles, key="plan_canal")
-                
-                with col_config2:
                     publicaciones_semana = st.slider("📊 Publicaciones por semana", 1, 14, 3)
-                
-                with col_config3:
-                    inversion_promedio = st.slider("💰 Inversión promedio por post (€)", 0.0, 500.0, 100.0, 10.0)
-                
-                # Selección de mes y año
-                col_mes, col_año = st.columns(2)
-                with col_mes:
-                    mes_planificacion = st.selectbox("📆 Mes", list(range(1, 13)),
-                                                format_func=lambda x: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"][x-1],
-                                                index=datetime.now().month-1)
-                with col_año:
-                    año_planificacion = st.number_input("📅 Año", min_value=2024, max_value=2030, value=datetime.now().year)
-                
-                # Configuración avanzada en una fila
-                col_avanzado1, col_avanzado2 = st.columns(2)
-                
-                with col_avanzado1:
+                    
+                    # Selección de mes y año
+                    col_mes, col_año = st.columns(2)
+                    with col_mes:
+                        mes_planificacion = st.selectbox("📆 Mes", list(range(1, 13)),
+                                                    format_func=lambda x: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"][x-1],
+                                                    index=datetime.now().month-1)
+                    with col_año:
+                        año_planificacion = st.number_input("📅 Año", min_value=2024, max_value=2030, value=datetime.now().year)
+                    
+                    # Configuración avanzada
                     st.markdown("#### 🎯 Configuración Avanzada")
+                    inversion_promedio = st.slider("💰 Inversión promedio por post (€)", 0.0, 500.0, 100.0, 10.0)
+                    
                     incluir_fines_semana = st.checkbox("📅 Incluir fines de semana", value=True)
                     priorizar_engagement = st.checkbox("🎯 Priorizar alto engagement", value=True)
-                
-                with col_avanzado2:
+                    
                     # Preferencias de horarios
                     st.markdown("#### ⏰ Franjas Horarias Preferidas")
                     hora_inicio = st.time_input("🌅 Hora más temprana", value=datetime.strptime("08:00", "%H:%M").time())
                     hora_fin = st.time_input("🌙 Hora más tardía", value=datetime.strptime("20:00", "%H:%M").time())
-                
-                # Botón centrado para generar planificación
-                st.markdown("---")
-                col_btn1, col_btn2, col_btn3 = st.columns([1, 2, 1])
-                with col_btn2:
-                    if st.button("🚀 Generar Planificación", type="primary", use_container_width=True):
+                    
+                    if st.button("🚀 Generar Planificación", type="primary"):
                         with st.spinner("🔮 Generando planificación inteligente..."):
                             # Generar planificación
                             planificacion = generar_planificacion_mensual(
@@ -4328,45 +4231,41 @@ elif nav == "🔮 Modelo Predictivo":
                             else:
                                 st.error("❌ Error generando la planificación")
                 
-                # Sección del calendario (ahora ocupa todo el ancho)
-                st.markdown("---")
-                st.markdown("## 📅 Calendario de Publicaciones")
-                
-                # Mostrar planificación si existe
-                if 'planificacion_generada' in st.session_state:
-                    planificacion = st.session_state['planificacion_generada']
+                with col_plan2:
+                    st.markdown("### 📅 Calendario de Publicaciones")
                     
-                    # Crear calendario visual (ahora con todo el ancho disponible)
-                    mostrar_calendario_planificacion(planificacion, mes_planificacion, año_planificacion)
-                    
-                    # Mostrar tabla detallada
-                    st.markdown("### 📋 Detalle de Publicaciones Programadas")
-                    mostrar_tabla_planificacion(planificacion)
-                    
-                    # Estadísticas de la planificación
-                    st.markdown("### 📊 Estadísticas de la Planificación")
-                    mostrar_estadisticas_planificacion(planificacion)
-                    
-                    # Opción de descarga
-                    st.markdown("### 💾 Exportar Planificación")
-                    col_descarga1, col_descarga2, col_descarga3 = st.columns([1, 2, 1])
-                    with col_descarga2:
-                        if st.button("📥 Descargar CSV", use_container_width=True):
+                    # Mostrar planificación si existe
+                    if 'planificacion_generada' in st.session_state:
+                        planificacion = st.session_state['planificacion_generada']
+                        
+                        # Crear calendario visual
+                        mostrar_calendario_planificacion(planificacion, mes_planificacion, año_planificacion)
+                        
+                        # Mostrar tabla detallada
+                        st.markdown("### 📋 Detalle de Publicaciones Programadas")
+                        mostrar_tabla_planificacion(planificacion)
+                        
+                        # Estadísticas de la planificación
+                        st.markdown("### 📊 Estadísticas de la Planificación")
+                        mostrar_estadisticas_planificacion(planificacion)
+                        
+                        # Opción de descarga
+                        st.markdown("### 💾 Exportar Planificación")
+                        if st.button("📥 Descargar CSV"):
                             csv_planificacion = convertir_planificacion_csv(planificacion)
                             st.download_button(
                                 label="📄 Descargar Planificación.csv",
                                 data=csv_planificacion,
                                 file_name=f"planificacion_{canal_planificacion}_{mes_planificacion}_{año_planificacion}.csv",
-                                mime="text/csv",
-                                use_container_width=True
+                                mime="text/csv"
                             )
-                else:
-                    st.info("👆 Configura los parámetros y genera tu planificación para ver el calendario")
-                    
-                    # Mostrar ejemplo de insights históricos
-                    if 'Fecha' in df.columns:
-                        st.markdown("#### 📈 Insights Históricos")
-                        mostrar_insights_historicos(df, canal_planificacion)
+                    else:
+                        st.info("👆 Configura los parámetros y genera tu planificación para ver el calendario")
+                        
+                        # Mostrar ejemplo de insights históricos
+                        if 'Fecha' in df.columns:
+                            st.markdown("#### 📈 Insights Históricos")
+                            mostrar_insights_historicos(df, canal_planificacion)
             
             else:
                 st.error("❌ Los modelos predictivos no están disponibles para la planificación")
@@ -4685,7 +4584,7 @@ def mostrar_estadisticas_planificacion(planificacion):
     
     with col4:
         engagement_total = df_plan['engagement_esperado'].sum()
-    st.metric("🔮 Engagement Esperado", f"{engagement_total:,}")
+        st.metric("❤️ Engagement Esperado", f"{engagement_total:,}")
     
     # Distribución por formato
     st.markdown("#### 📊 Distribución por Formato")
@@ -4796,266 +4695,52 @@ def mostrar_insights_historicos(df, canal):
             st.info(f"👁️ **Alcance promedio histórico**: {alcance_promedio:,.0f}")
             
 # --- TAB 3: NEXT STEPS ---
-elif nav == "🚀 Next Steps":
-    st.header("🎯 Plan de Acción Personalizado")
-    st.markdown("**Recomendaciones específicas basadas en tu análisis de datos actual**")
+with tab3:
+    st.header("🚀 Next Steps")
+    st.markdown("**Descubre las próximas funcionalidades y mejoras que llegarán a Oráculo.**")
     
-    # Calcular métricas clave para recomendaciones personalizadas
-    metricas_clave = resumen_metrics(df_filtrado)
+    # Organizar en columnas para mejor presentación
+    col_next1, col_next2 = st.columns(2)
     
-    # Análisis de performance por canal
-    if 'Canal' in df_filtrado.columns and len(df_filtrado) > 0:
-        performance_canal = df_filtrado.groupby('Canal').agg({
-            'Alcance': 'mean',
-            'Interacciones': 'mean' if 'Interacciones' in df_filtrado.columns else 'count',
-            'Inversion': 'mean' if 'Inversion' in df_filtrado.columns else 'count'
-        }).round(2)
+    with col_next1:
+        st.markdown("""
+        ### 🎯 Próximas Funcionalidades
         
-        if 'Interacciones' in df_filtrado.columns and 'Alcance' in df_filtrado.columns:
-            performance_canal['Engagement_Rate'] = (performance_canal['Interacciones'] / performance_canal['Alcance'] * 100).round(3)
+        #### 🤖 Inteligencia Artificial Avanzada
+        - **Generador de Contenido IA**: Crear textos para publicaciones automáticamente
+        - **Predicción de Tendencias**: Identificar temas que serán populares
+        - **Optimización Automática**: Sugerencias de mejora en tiempo real
         
-        mejor_canal = performance_canal['Alcance'].idxmax() if not performance_canal.empty else "Instagram"
-        peor_canal = performance_canal['Alcance'].idxmin() if not performance_canal.empty else "TikTok"
-    else:
-        mejor_canal = "Instagram"
-        peor_canal = "TikTok"
+        #### 📊 Analytics Avanzados
+        - **Análisis de Competencia**: Comparar rendimiento con otros perfiles
+        - **Segmentación de Audiencia**: Análisis detallado de tu audiencia
+        - **Tracking de Conversiones**: Seguimiento completo del customer journey
+        
+        #### 🛠️ Herramientas de Productividad
+        - **Calendario Editorial**: Planificación y programación de contenido
+        - **Colaboración en Equipo**: Gestión de múltiples usuarios
+        - **Templates Personalizados**: Plantillas adaptadas a tu marca
+        """)
     
-    # Análisis de formato
-    if 'Formato' in df_filtrado.columns and len(df_filtrado) > 0:
-        performance_formato = df_filtrado.groupby('Formato').agg({
-            'Alcance': 'mean',
-            'Interacciones': 'mean' if 'Interacciones' in df_filtrado.columns else 'count'
-        }).round(2)
+    with col_next2:
+        st.markdown("""
+        ### 📈 Métricas Adicionales
         
-        mejor_formato = performance_formato['Alcance'].idxmax() if not performance_formato.empty else "Reel"
-        formato_subutilizado = performance_formato['Alcance'].idxmin() if not performance_formato.empty else "Carrusel"
-    else:
-        mejor_formato = "Reel"
-        formato_subutilizado = "Carrusel"
-    
-    # ROI Analysis
-    roi_promedio = 0
-    if 'Valor_compra' in df_filtrado.columns and 'Inversion' in df_filtrado.columns:
-        ingresos_totales = df_filtrado['Valor_compra'].sum()
-        inversion_total = df_filtrado['Inversion'].sum()
-        if inversion_total > 0:
-            roi_promedio = ((ingresos_totales - inversion_total) / inversion_total * 100)
-    
-    # SECCIÓN 1: OPTIMIZACIÓN INMEDIATA (próximos 30 días)
-    st.markdown("---")
-    st.markdown("## 🎯 Acciones Inmediatas (Próximos 30 Días)")
-    
-    col_accion1, col_accion2 = st.columns(2)
-    
-    with col_accion1:
-        st.markdown("### 📈 Optimización de Contenido")
+        #### 💡 Nuevos KPIs
+        - **Brand Awareness Score**: Medición del conocimiento de marca
+        - **Engagement Quality**: Análisis cualitativo de interacciones
+        - **Viral Potential**: Predicción de contenido viral
         
-        recomendaciones_inmediatas = []
+        #### 🔗 Integraciones
+        - **APIs de Redes Sociales**: Conexión directa con plataformas
+        - **CRM Integration**: Sincronización con sistemas de clientes
+        - **E-commerce Platforms**: Integración con tiendas online
         
-        # Recomendación basada en el mejor canal
-        recomendaciones_inmediatas.append(f"**🔥 Prioriza {mejor_canal}**: Tu canal con mejor rendimiento promedio")
-        
-        # Recomendación de formato
-        recomendaciones_inmediatas.append(f"**🎬 Aumenta {mejor_formato}s**: Formato con mayor alcance en tus datos")
-        
-        # Recomendación de inversión
-        if 'Inversion' in df_filtrado.columns and len(df_filtrado) > 0:
-            inversion_optima = df_filtrado['Inversion'].quantile(0.75)
-            recomendaciones_inmediatas.append(f"**💰 Inversión óptima**: {inversion_optima:.0f}€ por post (percentil 75 de tu histórico)")
-        
-        # Recomendación temporal
-        if 'Fecha' in df_filtrado.columns and len(df_filtrado) > 0:
-            df_temp = df_filtrado.copy()
-            df_temp['hora'] = df_temp['Fecha'].dt.hour
-            df_temp['dia_semana'] = df_temp['Fecha'].dt.dayofweek
-            
-            if 'Interacciones' in df_filtrado.columns and 'Alcance' in df_filtrado.columns:
-                df_temp['engagement_rate'] = df_temp['Interacciones'] / df_temp['Alcance']
-                mejor_hora = df_temp.groupby('hora')['engagement_rate'].mean().idxmax()
-                mejor_dia = df_temp.groupby('dia_semana')['engagement_rate'].mean().idxmax()
-                dias_nombre = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']
-                recomendaciones_inmediatas.append(f"**⏰ Horario optimal**: {mejor_hora}:00 los {dias_nombre[mejor_dia]}s")
-        
-        for rec in recomendaciones_inmediatas:
-            st.info(rec)
-        
-        # Acción específica de Computer Vision
-        st.markdown("#### 🖼️ Optimización Visual")
-        st.warning("**Acción**: Usa el analizador de imágenes antes de cada publicación para asegurar colores y características que maximicen engagement")
-    
-    with col_accion2:
-        st.markdown("### 📊 Métricas a Vigilar")
-        
-        # KPIs críticos basados en los datos
-        if roi_promedio != 0:
-            color_roi = "🟢" if roi_promedio > 0 else "🔴"
-            st.metric("ROI Actual", f"{roi_promedio:.1f}%", help="Retorno de inversión promedio")
-            if roi_promedio < 0:
-                st.error("**⚠️ ROI negativo**: Revisa inversión vs. ingresos por canal")
-            elif roi_promedio < 50:
-                st.warning("**💡 ROI bajo**: Oportunidad de mejora en conversión")
-        
-        # Engagement rate promedio
-        if 'Interacciones' in df_filtrado.columns and 'Alcance' in df_filtrado.columns:
-            engagement_promedio = (df_filtrado['Interacciones'].sum() / df_filtrado['Alcance'].sum() * 100)
-            st.metric("Engagement Rate", f"{engagement_promedio:.2f}%")
-            
-            if engagement_promedio < 1:
-                st.error("**🚨 Engagement crítico**: Necesitas mejorar la calidad del contenido")
-            elif engagement_promedio < 3:
-                st.warning("**⚠️ Engagement bajo**: Experimenta con nuevos formatos")
-            else:
-                st.success("**✅ Buen engagement**: Mantén la estrategia actual")
-        
-        # Conversión
-        if 'Compras' in df_filtrado.columns and 'Alcance' in df_filtrado.columns:
-            tasa_conversion = (df_filtrado['Compras'].sum() / df_filtrado['Alcance'].sum() * 100)
-            st.metric("Tasa de Conversión", f"{tasa_conversion:.3f}%")
-            
-            if tasa_conversion < 0.01:
-                st.error("**🚨 Conversión crítica**: Revisa tu funnel de ventas")
-    
-    # SECCIÓN 2: DESARROLLO ESTRATÉGICO (próximos 90 días)
-    st.markdown("---")
-    st.markdown("## 🚀 Desarrollo Estratégico (Próximos 90 Días)")
-    
-    col_estrategia1, col_estrategia2 = st.columns(2)
-    
-    with col_estrategia1:
-        st.markdown("### 🎯 Expansión de Canales")
-        
-        # Recomendación específica de canal
-        if mejor_canal != peor_canal:
-            st.info(f"**🎯 Acción**: Replica la estrategia de {mejor_canal} en {peor_canal}")
-            st.markdown(f"""
-            **Plan específico para {peor_canal}:**
-            - Adapta el formato que funciona en {mejor_canal}
-            - Mantén la inversión inicial baja (50€/post)
-            - Mide durante 30 días antes de escalar
-            """)
-        
-        # Diversificación de formato
-        st.markdown("#### 🎨 Diversificación de Contenido")
-        st.warning(f"**Oportunidad**: {formato_subutilizado} está subutilizado. Prueba 3-4 posts este formato en las próximas 2 semanas")
-        
-        # Colaboraciones específicas
-        st.markdown("#### 🤝 Colaboraciones Estratégicas")
-        st.info("**Acción**: Busca micro-influencers en tu nicho con engagement rate >5% para colaboraciones")
-    
-    with col_estrategia2:
-        st.markdown("### 📈 Automatización e IA")
-        
-        # Implementación de planificación automática
-        st.markdown("#### 🤖 Planificación Automática")
-        st.success("**✅ Ya disponible**: Usa el planificador mensual para optimizar tus horarios automáticamente")
-        
-        # A/B Testing sistémico
-        st.markdown("#### 🧪 Testing Sistemático")
-        plan_testing = [
-            "Semana 1-2: Testa 2 horarios diferentes",
-            "Semana 3-4: Compara 2 tipos de copy",
-            "Semana 5-6: Prueba 2 paletas de colores",
-            "Semana 7-8: Evalúa formatos de CTA"
-        ]
-        
-        for item in plan_testing:
-            st.markdown(f"- {item}")
-        
-        # Automatización de análisis
-        st.markdown("#### � Monitoreo Inteligente")
-        st.info("**Recomendación**: Revisa métricas semanalmente usando este dashboard y ajusta estrategia según datos")
-    
-    # SECCIÓN 3: CRECIMIENTO A LARGO PLAZO (6 meses)
-    st.markdown("---")
-    st.markdown("## 🌟 Visión a Largo Plazo (6 Meses)")
-    
-    col_vision1, col_vision2 = st.columns(2)
-    
-    with col_vision1:
-        st.markdown("### 🎯 Objetivos Basados en Datos")
-        
-        # Proyecciones realistas basadas en datos actuales
-        if 'Alcance' in df_filtrado.columns and len(df_filtrado) > 0:
-            alcance_actual = df_filtrado['Alcance'].mean()
-            objetivo_alcance = alcance_actual * 2.5  # Crecimiento realista 150%
-            
-            st.markdown(f"""
-            **📈 Objetivos de Crecimiento:**
-            - **Alcance promedio**: {alcance_actual:,.0f} → {objetivo_alcance:,.0f} (+150%)
-            - **Engagement rate**: Mantener >3% (actual: {engagement_promedio:.2f}%)
-            - **ROI objetivo**: >100% (actual: {roi_promedio:.1f}%)
-            """)
-        
-        # Escalabilidad
-        st.markdown("#### 🚀 Plan de Escalabilidad")
-        escalabilidad_plan = [
-            "Mes 1-2: Optimizar canales actuales",
-            "Mes 3-4: Expandir a 1 canal nuevo",
-            "Mes 5-6: Implementar automatizaciones",
-            "Mes 6+: Escalar inversión en mejores performers"
-        ]
-        
-        for item in escalabilidad_plan:
-            st.markdown(f"- {item}")
-    
-    with col_vision2:
-        st.markdown("### 🛠️ Herramientas Necesarias")
-        
-        # Stack tecnológico recomendado
-        st.markdown("#### � Stack Recomendado")
-        herramientas = [
-            "**Hootsuite/Buffer**: Programación automática",
-            "**Canva Pro**: Creación visual optimizada",
-            "**Google Analytics**: Tracking de conversiones",
-            "**Oráculo**: Análisis predictivo (¡ya lo tienes!)"
-        ]
-        
-        for herramienta in herramientas:
-            st.markdown(f"- {herramienta}")
-        
-        # Inversión recomendada
-        st.markdown("#### 💰 Presupuesto Sugerido")
-        if 'Inversion' in df_filtrado.columns and len(df_filtrado) > 0:
-            inversion_actual = df_filtrado['Inversion'].sum()
-            st.markdown(f"""
-            **Escalado de inversión:**
-            - **Actual**: {inversion_actual:,.0f}€/mes
-            - **Mes 3**: {inversion_actual * 1.5:,.0f}€/mes (+50%)
-            - **Mes 6**: {inversion_actual * 2.5:,.0f}€/mes (+150%)
-            """)
-        
-        st.warning("**⚠️ Importante**: Solo escala inversión después de validar mejoras en ROI")
-    
-    # SECCIÓN 4: PLAN DE ACCIÓN SEMANAL
-    st.markdown("---")
-    st.markdown("## 📅 Tu Plan de Acción Semanal")
-    
-    plan_semanal = {
-        "Lunes": "📊 Revisar métricas de la semana anterior en Oráculo",
-        "Martes": "🎨 Crear contenido usando recomendaciones del analizador visual",
-        "Miércoles": "📱 Publicar en tu canal principal en horario óptimo",
-        "Jueves": "🔍 Analizar rendimiento y ajustar siguiente publicación",
-        "Viernes": "📈 Planificar contenido de la próxima semana",
-        "Sábado": "🤝 Engagement: responder comentarios y DMs",
-        "Domingo": "📋 Preparar contenido para planificación semanal"
-    }
-    
-    for dia, accion in plan_semanal.items():
-        st.markdown(f"**{dia}**: {accion}")
-    
-    # Call to Action final
-    st.markdown("---")
-    st.success("""
-    ### 🎯 ¿Listo para actuar?
-    
-    **Esta semana implementa:**
-    1. ✅ Usa el planificador mensual para programar tus próximos 10 posts
-    2. ✅ Analiza 3 imágenes con el analizador visual antes de publicar
-    3. ✅ Aumenta tu inversión en el canal que mejor convierte
-    4. ✅ Programa publicaciones en tus horarios de mayor engagement
-    
-    **Resultado esperado**: +25% en alcance y +15% en engagement en 30 días
-    """)
+        #### 🎨 Características Visuales
+        - **Editor de Imágenes IA**: Edición automática de fotos
+        - **Generador de Hashtags**: Sugerencias inteligentes
+        - **Video Analytics**: Análisis detallado de contenido audiovisual
+        """)
     
     # Sección de roadmap
     st.markdown("---")
@@ -5148,7 +4833,7 @@ elif nav == "🚀 Next Steps":
     with col_contact1:
         st.markdown("""
         #### 📧 Contacto
-        - **Email**: infooraculo.com
+        - **Email**: info@oraculo.com
         - **Soporte**: support@oraculo.com
         - **Ventas**: sales@oraculo.com
         """)
@@ -5157,8 +4842,8 @@ elif nav == "🚀 Next Steps":
         st.markdown("""
         #### 🌐 Síguenos
         - **LinkedIn**: /company/oraculo
-        - **Instagram**: @oraculoofficial
-        - **Twitter**: @oraculoApp
+        - **Instagram**: @oraculo
+        - **Twitter**: @OraculoApp
         """)
     
     with col_contact3:
@@ -5175,13 +4860,13 @@ st.markdown("""
 <div style='text-align: center; padding: 2rem; background: rgba(255,255,255,0.8); border-radius: 15px; margin-top: 2rem;'>
     <h3 style='color: #4a148c; margin-bottom: 1rem;'>🔮 Oráculo</h3>
     <p style='color: #6a1b9a; font-size: 1.1rem; margin-bottom: 1rem;'>
-        <strong>Predice tu estrategia digital con datos inteligentes</strong>
+        <strong>Empodera tu estrategia digital con datos inteligentes</strong>
     </p>
-        <p style='color: #8e24aa; font-size: 0.9rem;'>
+    <p style='color: #8e24aa; font-size: 0.9rem;'>
         Desarrollado con 🔮 para marcas que buscan crecer en redes sociales
     </p>
     <p style='color: #8e24aa; font-size: 0.8rem; margin-top: 1rem;'>
-        © 2025 Oráculo. Todos los derechos reservados.
+        © 2024 Oráculo. Todos los derechos reservados.
     </p>
 </div>
 """, unsafe_allow_html=True)
