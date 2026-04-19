@@ -836,6 +836,34 @@ hr, .stMarkdown hr {
         max-width: 200px !important;
     }
 }
+/* FORZAR COLOR NEGRO EN TEXTOS DE TARJETAS, MÉTRICAS Y TABLAS (solo color) */
+.element-container,
+.element-container * ,
+[data-testid="metric-container"],
+[data-testid="metric-container"] * ,
+.stDataFrame,
+.stTable,
+.stDataFrame * ,
+.stTable * ,
+.stInfo, .stWarning, .stSuccess, .stError,
+.stMetric, .stMetric > div, .stMetricValue, .stMetricLabel,
+.stCaption, .stMarkdown, .stMarkdown p, .main .markdown-text-container {
+    color: #000000 !important;
+}
+
+/* Reglas específicas para métricas y captions */
+[data-testid="metric-container"] [data-testid="metric-value"],
+[data-testid="metric-container"] [data-testid="metric-label"],
+.element-container .stCaption,
+.element-container .stMetricValue {
+    color: #000000 !important;
+}
+
+/* Enlaces dentro de contenedores: mantener legibilidad */
+.element-container a, .stDataFrame a, .stTable a, .stInfo a {
+    color: #000000 !important;
+    text-decoration: none !important;
+}
 </style>
 """
 
@@ -1273,7 +1301,7 @@ with col_logo_center:
         st.markdown("""
         <div style="text-align: center; margin: 2rem 0;">
             <h1 style="font-size: 3.5rem; color: #4a148c; margin: 0;">🔮 ORÁCULO</h1>
-            <p style="font-size: 1.3rem; color: #6a1b9a; margin: 0.5rem 0;">Empodera tu estrategia digital</p>
+            <p style="font-size: 1.3rem; color: #6a1b9a; margin: 0.5rem 0;"> Predice tu estrategia digital</p>
         </div>
         """, unsafe_allow_html=True)
 
