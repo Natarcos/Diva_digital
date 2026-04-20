@@ -539,7 +539,7 @@ st.set_page_config(
 # Definir variables de colores y rutas
 PRIMARY_COLOR = "#8e24aa"
 # Ruta relativa para el logo (dentro de la carpeta App)
-LOGO_PATH = os.path.join(os.path.dirname(__file__), "/Users/n.arcos89/Documents/GitHub/Diva_digital/App/Logo-oraculo.png")
+LOGO_PATH = os.path.join(os.path.dirname(__file__), "Logo-oraculo.png")
 
 # --- ESTILOS PERSONALIZADOS MEJORADOS ---
 page_bg = """
