@@ -861,26 +861,31 @@ hr, .stMarkdown hr {
         max-width: 200px !important;
     }
 }
-/* FORZAR COLOR GRIS MARENGO EN TEXTOS DE TARJETAS, MÉTRICAS Y TABLAS (solo color) */
+/* ===========================
+   SOLO FORZAR COLOR EN TARJETAS,
+   MÉTRICAS, TABLAS Y GRÁFICOS
+   (NO tocar encabezados ni texto principal)
+   ===========================*/
+
+/* Tarjetas, contenedores y métricas: texto gris marengo */
 .element-container,
-.element-container * ,
 [data-testid="metric-container"],
 [data-testid="metric-container"] * ,
-.stDataFrame,
-.stTable,
-.stDataFrame * ,
-.stTable * ,
-.stInfo, .stWarning, .stSuccess, .stError,
-.stMetric, .stMetric > div, .stMetricValue, .stMetricLabel,
-.stCaption, .stMarkdown, .stMarkdown p, .main .markdown-text-container {
+.stMetricValue,
+.stMetricLabel,
+.element-container .stCaption,
+.element-container .stMetricValue {
     color: #25303a !important;
 }
 
-/* Reglas específicas para métricas y captions */
-[data-testid="metric-container"] [data-testid="metric-value"],
+/* Etiquetas de métricas secundarias en un gris más suave */
 [data-testid="metric-container"] [data-testid="metric-label"],
-.element-container .stCaption,
-.element-container .stMetricValue {
+.element-container .stCaption {
+    color: #64748B !important;
+}
+
+/* Tablas / DataFrames: sólo texto dentro de la tabla */
+.stDataFrame, .stTable, .stDataFrame *, .stTable * {
     color: #25303a !important;
 }
 
@@ -888,6 +893,43 @@ hr, .stMarkdown hr {
 .element-container a, .stDataFrame a, .stTable a, .stInfo a {
     color: #25303a !important;
     text-decoration: none !important;
+}
+
+/* PLOTLY: forzar área de trazado blanca y texto de ejes/leyenda en gris marengo */
+.js-plotly-plot, div[data-testid="stPlotlyChart"] .js-plotly-plot {
+    background: #ffffff !important;
+    box-shadow: none !important;
+}
+
+/* Área interna de Plotly (rects) */
+.js-plotly-plot .main-svg rect,
+.js-plotly-plot .plotly .bgrect,
+.js-plotly-plot .cartesianlayer .bg,
+.js-plotly-plot .subplot > rect,
+.js-plotly-plot .layer-below rect,
+.js-plotly-plot .layer-above rect,
+.js-plotly-plot .plot .bg {
+    fill: #ffffff !important;
+    stroke: none !important;
+}
+
+/* Texto en gráficos: títulos, ejes, ticks, leyendas, colorbar */
+.js-plotly-plot svg text,
+.js-plotly-plot .legendtext,
+.js-plotly-plot .gtitle,
+.js-plotly-plot .annotation-text,
+.js-plotly-plot .colorbar text,
+.js-plotly-plot .xtick text,
+.js-plotly-plot .ytick text,
+.js-plotly-plot .axis-title,
+.js-plotly-plot .legend text {
+    fill: #25303a !important;
+    color: #25303a !important;
+}
+
+/* Mantener los encabezados, descripciones y markdown globales sin alterar:
+(no añadir selectores globales aquí para evitar sobrescribir h1/h2/h3)
+*/
 }
 
 /* FORZAR: fondo blanco y texto gris marengo en gráficos Plotly */
