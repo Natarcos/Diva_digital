@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
+import plotly.io as pio
 from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.model_selection import train_test_split
@@ -18,6 +19,30 @@ import calendar
 from datetime import datetime, timedelta
 import warnings
 warnings.filterwarnings('ignore')
+
+# Plantilla global Plotly: fondo blanco y texto en negro (aplica a todos los fig.update_layout por defecto)
+template_oraculo = go.layout.Template(
+    layout=go.Layout(
+        font=dict(color="#25303a", family="Inter, Arial, sans-serif", size=12),
+        paper_bgcolor="#FFFFFF",
+        plot_bgcolor="#FFFFFF",
+        legend=dict(font=dict(color="#25303a")),
+        xaxis=dict(
+            title=dict(font=dict(color="#25303a")),
+            tickfont=dict(color="#25303a"),
+            gridcolor="rgba(0,0,0,0.06)"
+        ),
+        yaxis=dict(
+            title=dict(font=dict(color="#25303a")),
+            tickfont=dict(color="#25303a"),
+            gridcolor="rgba(0,0,0,0.06)"
+        ),
+        coloraxis=dict(colorbar=dict(tickfont=dict(color="#25303a"))),
+        margin=dict(l=40, r=24, t=60, b=40)
+    )
+)
+pio.templates["oraculo"] = template_oraculo
+pio.templates.default = "oraculo"
 
 # Nuevas importaciones para análisis de imágenes
 from PIL import Image
@@ -514,7 +539,7 @@ st.set_page_config(
 # Definir variables de colores y rutas
 PRIMARY_COLOR = "#8e24aa"
 # Ruta relativa para el logo (dentro de la carpeta App)
-LOGO_PATH = os.path.join(os.path.dirname(__file__), "lApp/Logo-oraculo.png")
+LOGO_PATH = os.path.join(os.path.dirname(__file__), "/Users/n.arcos89/Documents/GitHub/Diva_digital/App/Logo-oraculo.png")
 
 # --- ESTILOS PERSONALIZADOS MEJORADOS ---
 page_bg = """
@@ -836,7 +861,7 @@ hr, .stMarkdown hr {
         max-width: 200px !important;
     }
 }
-/* FORZAR COLOR NEGRO EN TEXTOS DE TARJETAS, MÉTRICAS Y TABLAS (solo color) */
+/* FORZAR COLOR GRIS MARENGO EN TEXTOS DE TARJETAS, MÉTRICAS Y TABLAS (solo color) */
 .element-container,
 .element-container * ,
 [data-testid="metric-container"],
@@ -848,7 +873,7 @@ hr, .stMarkdown hr {
 .stInfo, .stWarning, .stSuccess, .stError,
 .stMetric, .stMetric > div, .stMetricValue, .stMetricLabel,
 .stCaption, .stMarkdown, .stMarkdown p, .main .markdown-text-container {
-    color: #000000 !important;
+    color: #25303a !important;
 }
 
 /* Reglas específicas para métricas y captions */
@@ -856,13 +881,136 @@ hr, .stMarkdown hr {
 [data-testid="metric-container"] [data-testid="metric-label"],
 .element-container .stCaption,
 .element-container .stMetricValue {
-    color: #000000 !important;
+    color: #25303a !important;
 }
 
 /* Enlaces dentro de contenedores: mantener legibilidad */
 .element-container a, .stDataFrame a, .stTable a, .stInfo a {
-    color: #000000 !important;
+    color: #25303a !important;
     text-decoration: none !important;
+}
+
+/* FORZAR: fondo blanco y texto gris marengo en gráficos Plotly */
+.js-plotly-plot, div[data-testid="stPlotlyChart"] .js-plotly-plot {
+    background: #ffffff !important;
+    box-shadow: none !important;
+}
+
+/* Forzar que el área de trazado (plot_bg) sea blanca */
+.js-plotly-plot .plotly {
+    background: #ffffff !important;
+}
+
+/* Texto (títulos, ejes, ticks, leyendas, colorbar) en gris marengo */
+.js-plotly-plot svg text,
+.js-plotly-plot .legendtext,
+.js-plotly-plot .gtitle,
+.js-plotly-plot .annotation-text,
+.js-plotly-plot .colorbar text,
+div[data-testid="stPlotlyChart"] .js-plotly-plot svg text {
+    fill: #25303a !important;
+    color: #25303a !important;
+}
+
+/* Ejes y ticks */
+.js-plotly-plot .xtick text,
+.js-plotly-plot .ytick text,
+.js-plotly-plot .axis-title {
+    fill: #25303a !important;
+}
+
+/* Leyenda */
+.js-plotly-plot .legend text,
+.js-plotly-plot .legend .traces {
+    fill: #25303a !important;
+}
+
+/* Colorbar ticks */
+.js-plotly-plot .cbtick, .js-plotly-plot .colorbar text {
+    fill: #25303a !important;
+}
+
+/* Asegurar botones / modo barra visibles */
+.js-plotly-plot .modebar-btn {
+    filter: none !important;
+}
+
+/* FORZAR: fondo blanco en el área de trazado de Plotly (rects internos) */
+.js-plotly-plot .main-svg rect,
+.js-plotly-plot .plotly .bgrect,
+.js-plotly-plot .cartesianlayer .bg,
+.js-plotly-plot .subplot > rect,
+.js-plotly-plot .layer-below rect,
+.js-plotly-plot .layer-above rect,
+.js-plotly-plot .plot .bg {
+    fill: #ffffff !important;
+    stroke: none !important;
+}
+
+/* Asegurar contenedor blanco */
+.js-plotly-plot, div[data-testid="stPlotlyChart"] .js-plotly-plot {
+    background: #ffffff !important;
+}
+
+/* Forzar texto / ticks / leyendas en gris marengo */
+.js-plotly-plot svg text,
+.js-plotly-plot .xtick text,
+.js-plotly-plot .ytick text,
+.js-plotly-plot .axis-title,
+.js-plotly-plot .legend text,
+.js-plotly-plot .colorbar text {
+    fill: #25303a !important;
+    color: #25303a !important;
+}
+
+/* Ejes y ticks */
+.js-plotly-plot .xtick text,
+.js-plotly-plot .ytick text,
+.js-plotly-plot .axis-title {
+    fill: #25303a !important;
+}
+
+/* Leyenda */
+.js-plotly-plot .legend text,
+.js-plotly-plot .legend .traces {
+    fill: #25303a !important;
+}
+
+/* Colorbar ticks */
+.js-plotly-plot .cbtick, .js-plotly-plot .colorbar text {
+    fill: #25303a !important;
+}
+
+/* Asegurar botones / modo barra visibles */
+.js-plotly-plot .modebar-btn {
+    filter: none !important;
+}
+/* FORZAR: fondo blanco en el área de trazado de Plotly (rects internos) */
+.js-plotly-plot .main-svg rect,
+.js-plotly-plot .plotly .bgrect,
+.js-plotly-plot .cartesianlayer .bg,
+.js-plotly-plot .subplot > rect,
+.js-plotly-plot .layer-below rect,
+.js-plotly-plot .layer-above rect,
+.js-plotly-plot .plot .bg {
+    fill: #ffffff !important;
+    stroke: none !important;
+}
+
+/* Asegurar contenedor blanco */
+.js-plotly-plot, div[data-testid="stPlotlyChart"] .js-plotly-plot {
+    background: #ffffff !important;
+}
+
+/* Forzar texto / ticks / leyendas en negro */
+.js-plotly-plot svg text,
+.js-plotly-plot .xtick text,
+.js-plotly-plot .ytick text,
+.js-plotly-plot .axis-title,
+.js-plotly-plot .legend text,
+.js-plotly-plot .colorbar text {
+    fill: #25303a !important;
+    color: #25303a !important;
 }
 </style>
 """
@@ -1296,12 +1444,27 @@ col_logo_left, col_logo_center, col_logo_right = st.columns([1, 2, 1])
 
 with col_logo_center:
     if os.path.exists(LOGO_PATH):
-        st.image(LOGO_PATH, width=400, use_container_width=False)
+        try:
+            import base64
+            with open(LOGO_PATH, "rb") as _img:
+                b64 = base64.b64encode(_img.read()).decode()
+            st.markdown(
+                f'''
+                <div style="display:flex; justify-content:center; align-items:center; padding: 1.2rem 0;">
+                    <img src="data:image/png;base64,{b64}" alt="Oraculo logo"
+                        style="max-width:320px; width:70%; height:auto; display:block; margin:0 auto;" />
+                </div>
+                ''',
+                unsafe_allow_html=True
+            )
+        except Exception:
+            # Fallback a st.image si la incrustación falla
+            st.image(LOGO_PATH, use_container_width=False, width=320)
     else:
         st.markdown("""
         <div style="text-align: center; margin: 2rem 0;">
             <h1 style="font-size: 3.5rem; color: #4a148c; margin: 0;">🔮 ORÁCULO</h1>
-            <p style="font-size: 1.3rem; color: #6a1b9a; margin: 0.5rem 0;"> Predice tu estrategia digital</p>
+            <p style="font-size: 1.3rem; color: #6a1b9a; margin: 0.5rem 0;">Predice tu estrategia digital</p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -1461,19 +1624,27 @@ def cargar_datos_imagenes():
 df_imagenes = cargar_datos_imagenes()
 
 # --- SIDEBAR: LOGO, FILTROS Y RESUMEN ---
-# Logo en el sidebar
+# Mostrar logo real en el sidebar (usar st.sidebar.image para evitar file:// en HTML)
 if os.path.exists(LOGO_PATH):
-    st.sidebar.image(LOGO_PATH, width=150, use_container_width=False)
+    try:
+        # reemplazado use_column_width -> use_container_width
+        st.sidebar.image(LOGO_PATH, caption=None, use_container_width=False, width=140)
+    except Exception:
+        st.sidebar.markdown(
+            f"""
+            <div style="text-align:center; padding:0.6rem 0; margin-bottom:0.6rem;">
+                <img src="file://{LOGO_PATH}" alt="Oraculo logo" style="max-width:140px; width:70%; height:auto; display:block; margin:0 auto;">
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 else:
-    st.sidebar.markdown("""
-    <div style='text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.1); border-radius: 15px; margin-bottom: 1rem;'>
-        <h2 style='margin: 0; color: #fff; font-size: 1.5rem;'>🔮 ORÁCULO</h2>
-        <p style='margin: 0; color: #fff; font-size: 0.9rem;'>Analytics & Insights</p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.sidebar.markdown(
+        "<div style='text-align:center; padding:0.8rem 0; margin-bottom:0.6rem;'><h3 style='margin:0;color:#4a148c;'>🔮 ORÁCULO</h3></div>",
+        unsafe_allow_html=True)
 
 st.sidebar.markdown("<h3 style='color: var(--text-primary); text-align: center;'>📊 Panel de Control</h3>", unsafe_allow_html=True)
-st.sidebar.markdown("<p style='color: var(--text-primary); text-align: center;'>Precide tu estrategia digital con datos 💫</p>", unsafe_allow_html=True)
+st.sidebar.markdown("<p style='color: var(--text-primary); text-align: center;'>Predice tu estrategia digital con datos 💫</p>", unsafe_allow_html=True)
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("### 🔎 Filtra tus datos")
