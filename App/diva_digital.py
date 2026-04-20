@@ -1666,24 +1666,29 @@ def cargar_datos_imagenes():
 df_imagenes = cargar_datos_imagenes()
 
 # --- SIDEBAR: LOGO, FILTROS Y RESUMEN ---
-# Mostrar logo real en el sidebar (usar st.sidebar.image para evitar file:// en HTML)
+# Mostrar logo real en el sidebar (incrustado como data URI para evitar file://)
 if os.path.exists(LOGO_PATH):
     try:
-        # reemplazado use_column_width -> use_container_width
-        st.sidebar.image(LOGO_PATH, caption=None, use_container_width=False, width=140)
-    except Exception:
+        import base64
+        with open(LOGO_PATH, "rb") as _img:
+            b64_sidebar = base64.b64encode(_img.read()).decode()
         st.sidebar.markdown(
             f"""
             <div style="text-align:center; padding:0.6rem 0; margin-bottom:0.6rem;">
-                <img src="file://{LOGO_PATH}" alt="Oraculo logo" style="max-width:140px; width:70%; height:auto; display:block; margin:0 auto;">
+                <img src="data:image/png;base64,{b64_sidebar}" alt="Oraculo logo"
+                    style="max-width:140px; width:70%; height:auto; display:block; margin:0 auto;" />
             </div>
             """,
             unsafe_allow_html=True
         )
+    except Exception:
+        # Fallback sencillo a st.sidebar.image
+        st.sidebar.image(LOGO_PATH, caption=None, use_container_width=False, width=140)
 else:
     st.sidebar.markdown(
         "<div style='text-align:center; padding:0.8rem 0; margin-bottom:0.6rem;'><h3 style='margin:0;color:#4a148c;'>🔮 ORÁCULO</h3></div>",
-        unsafe_allow_html=True)
+        unsafe_allow_html=True
+    )
 
 st.sidebar.markdown("<h3 style='color: var(--text-primary); text-align: center;'>📊 Panel de Control</h3>", unsafe_allow_html=True)
 st.sidebar.markdown("<p style='color: var(--text-primary); text-align: center;'>Predice tu estrategia digital con datos 💫</p>", unsafe_allow_html=True)
